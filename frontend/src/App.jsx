@@ -1,11 +1,40 @@
 import { Suspense } from "react";
-import { Loader } from "./components";
-import { Home } from "./pages";
+import { Loader, ProtectedRoutes, Layout } from "./components";
+import {
+  Home,
+  Admin,
+  Login,
+  SignUp,
+  Details,
+  NotFound,
+  Unauthorized,
+} from "./pages";
+import { Route, Routes } from "react-router";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <Suspense fallback={<Loader />}>
-      <Home />
+      <Routes>
+        {/* Layout */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/details" element={<Details />} />
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<SignUp />} />
+
+          <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
+            <Route path="/admin" element={<Admin />} />
+          </Route>
+        </Route>
+        {/* Layout */}
+
+        <Route path="*" element={<NotFound />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+      </Routes>
+
+      <Toaster position="top-center" reverseOrder={false} />
     </Suspense>
   );
 }
