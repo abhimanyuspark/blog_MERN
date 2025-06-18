@@ -8,8 +8,12 @@ export const navData = [
     path: "/",
   },
   {
-    name: "About",
-    path: "/about",
+    name: "React Js",
+    path: "/reactjs",
+  },
+  {
+    name: "Next Js",
+    path: "/nextjs",
   },
 ];
 
