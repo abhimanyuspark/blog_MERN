@@ -152,16 +152,20 @@ const googleLogin = async (req, res) => {
       let user = await User.findOne({ email }).exec();
 
       if (!user) {
+        const hashPwd = await bcrypt.hash(name, 10);
         user = await User.create({
           fullName: name,
           email,
           profilePic: picture,
+          password: hashPwd,
         });
       }
 
       const { _id } = user;
       generateToken(_id, res);
-      return res.status(200).json(user);
+      const { password, ...userData } = user._doc || user;
+      userData.password = undefined;
+      return res.status(200).json(userData);
     }
   } catch (err) {
     return res.status(500).json({ message: "Internal Server Error" });

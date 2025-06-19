@@ -13,7 +13,7 @@ import { Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./redux/features/authSlice";
 
 const client_Id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -26,6 +26,7 @@ const GoogleAuthProvider = ({ children }) => {
 
 function App() {
   const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(checkAuth());
@@ -33,6 +34,7 @@ function App() {
 
   return (
     <Suspense fallback={<Loader />}>
+      {loading && <Loader />}
       <Routes>
         {/* Layout */}
         <Route element={<Layout />}>

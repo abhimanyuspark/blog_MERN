@@ -6,6 +6,7 @@ import { GoogleLogo } from "../../assets";
 import { useDispatch, useSelector } from "react-redux";
 import { googleLoginUser } from "../../redux/features/authSlice";
 import { useNavigate } from "react-router";
+import Loader from "../../components/loaders/Loader";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ const Login = () => {
 
   return (
     <div className="mx-auto md:mx-20 lg:mx-60 my-10">
+      {loading && <Loader />}
       <div className="flex flex-col gap-8 rounded-xl border border-base-300 p-8 bg-base-100">
         <h2 className="text-center">Login</h2>
         <form className="flex gap-4 flex-col">
@@ -70,7 +72,13 @@ const Login = () => {
           <Button type="button" onClick={handleSubmit} className="btn-primary">
             Login
           </Button>
-          <Button type="button" onClick={handleGoogleAuth}>
+          <Button
+            type="button"
+            className=""
+            onClick={handleGoogleAuth}
+            loading={loading}
+            disabled={loading}
+          >
             <img src={GoogleLogo} alt="GoogleLogo" />
             Login with Google
           </Button>
