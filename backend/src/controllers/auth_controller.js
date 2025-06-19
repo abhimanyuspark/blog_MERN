@@ -5,7 +5,7 @@ const cloudinary = require("../config/cloudinary");
 
 const signUp = async (req, res) => {
   try {
-    const { email, fullName, password, profilePic } = req?.body;
+    const { email, fullName, password, profilePic, roles } = req?.body;
 
     if (!email || !fullName || !password) {
       return res.status(400).json({ message: "Please fill all the fields" });
@@ -29,6 +29,7 @@ const signUp = async (req, res) => {
       fullName,
       password: hashPwd,
       profilePic,
+      roles,
     });
 
     if (user) {
@@ -97,8 +98,8 @@ const updateProfile = async (req, res) => {
     }
 
     const upload = await cloudinary.uploader.upload(profilePic, {
-      upload_preset: "chat-app",
-      folder: "chat_app",
+      upload_preset: "blog",
+      folder: "Blog",
     });
     if (!upload) {
       return res.status(500).json({ message: "Error uploading image" });
