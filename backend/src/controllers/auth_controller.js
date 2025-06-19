@@ -152,14 +152,10 @@ const googleLogin = async (req, res) => {
       let user = await User.findOne({ email }).exec();
 
       if (!user) {
-        // Generate a random password for Google users
-        const randomPassword = Math.random().toString(36).slice(-8);
-        const hashPwd = await bcrypt.hash(randomPassword, 10);
         user = await User.create({
           fullName: name,
           email,
           profilePic: picture,
-          password: hashPwd,
         });
       }
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FiMenu, FiSearch, FiX } from "react-icons/fi";
-import { Link, NavLink, useLocation } from "react-router";
+import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import { GrayLogo, WhiteLogo } from "../../assets";
 import { navData, themesData } from "../../utils/constants";
 import useTheme from "../../hooks/useTheme";
@@ -8,9 +8,12 @@ import { useWindowScroll } from "@uidotdev/usehooks";
 import Modal from "../modal/Modal";
 import toast from "react-hot-toast";
 import Drawer from "../drawer/Drawer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/features/authSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const { user } = useSelector((state) => state.auth);
 
@@ -124,7 +127,12 @@ const Navbar = () => {
                     />
                   </label>
                 </li>
-                <li>
+                <li
+                  onClick={async () => {
+                    await dispatch(logoutUser());
+                    navigate("/login");
+                  }}
+                >
                   <a>Logout</a>
                 </li>
               </ul>
