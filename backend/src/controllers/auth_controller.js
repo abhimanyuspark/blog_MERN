@@ -2,10 +2,12 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../config/utils");
 const cloudinary = require("../config/cloudinary");
+const { oauth2Client } = require("../config/google");
+const axios = require("axios");
 
 const signUp = async (req, res) => {
   try {
-    const { email, fullName, password, profilePic, roles } = req?.body;
+    const { email, fullName, password, profilePic, roles, bio } = req?.body;
 
     if (!email || !fullName || !password) {
       return res.status(400).json({ message: "Please fill all the fields" });
@@ -30,6 +32,7 @@ const signUp = async (req, res) => {
       password: hashPwd,
       profilePic,
       roles,
+      bio,
     });
 
     if (user) {
@@ -56,7 +59,7 @@ const logIn = async (req, res) => {
 
     const user = await User.findOne({ email }).exec();
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(409).json({ message: "User not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -133,4 +136,47 @@ const checkAuth = async (req, res) => {
   }
 };
 
-module.exports = { signUp, logIn, logOut, updateProfile, checkAuth };
+const googleLogin = async (req, res) => {
+  try {
+    const code = req.query.code;
+
+    if (code) {
+      const googleres = await oauth2Client.getToken(code);
+      oauth2Client.setCredentials(googleres.tokens);
+
+      const userRes = await axios.get(
+        `https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${googleres.tokens.access_token}`
+      );
+      const { email, name, picture } = userRes.data;
+
+      let user = await User.findOne({ email }).exec();
+
+      if (!user) {
+        // Generate a random password for Google users
+        const randomPassword = Math.random().toString(36).slice(-8);
+        const hashPwd = await bcrypt.hash(randomPassword, 10);
+        user = await User.create({
+          fullName: name,
+          email,
+          profilePic: picture,
+          password: hashPwd,
+        });
+      }
+
+      const { _id } = user;
+      generateToken(_id, res);
+      return res.status(200).json(user);
+    }
+  } catch (err) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+module.exports = {
+  signUp,
+  logIn,
+  logOut,
+  updateProfile,
+  checkAuth,
+  googleLogin,
+};

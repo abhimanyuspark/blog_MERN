@@ -8,9 +8,12 @@ import { useWindowScroll } from "@uidotdev/usehooks";
 import Modal from "../modal/Modal";
 import toast from "react-hot-toast";
 import Drawer from "../drawer/Drawer";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [search, setSearch] = useState("");
+  const { user } = useSelector((state) => state.auth);
+
   const [{ y }] = useWindowScroll();
   const location = useLocation();
   const [theme, setTheme] = useTheme(themesData[1]);
@@ -21,8 +24,6 @@ const Navbar = () => {
 
   const id = "model";
   const menu = "menu";
-
-  const user = null;
 
   return (
     <>
@@ -89,7 +90,7 @@ const Navbar = () => {
           )}
 
           {/* Avatar */}
-          {!user && (
+          {user && (
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -97,10 +98,7 @@ const Navbar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img
-                    alt="Tailwind CSS Navbar component"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                  />
+                  <img alt="profilePic" src={user?.profilePic} className="" />
                 </div>
               </div>
               <ul

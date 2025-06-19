@@ -21,10 +21,15 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    bio: {
+      type: String,
+      default: "",
+    },
     roles: {
       type: [String],
+      enum: ["admin", "user"],
       default: ["user"],
-    }
+    },
   },
   {
     timestamps: true,
