@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiMenu, FiSearch, FiX } from "react-icons/fi";
 import { Link, NavLink, useLocation, useNavigate } from "react-router";
-import { GrayLogo, WhiteLogo } from "../../assets";
+import { GrayLogo, Logo, WhiteLogo } from "../../assets";
 import { navData, themesData } from "../../utils/constants";
 import useTheme from "../../hooks/useTheme";
 import { useWindowScroll } from "@uidotdev/usehooks";
@@ -101,7 +101,12 @@ const Navbar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img alt="profilePic" src={user?.profilePic} className="" />
+                  <img
+                    alt="profilePic"
+                    src={user?.profilePic}
+                    onError={(e) => (e.currentTarget.src = Logo)}
+                    className="bg-white"
+                  />
                 </div>
               </div>
               <ul
@@ -148,7 +153,7 @@ const Navbar = () => {
             e.preventDefault();
           }}
         >
-          <label className="input w-full">
+          <label className="input input-primary w-full">
             <FiSearch />
             <input
               type="search"

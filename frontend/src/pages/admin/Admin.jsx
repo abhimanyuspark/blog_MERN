@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { blogs, categories, stats } from "../../utils/constants";
 import { StatsCard, BlogCard } from "../../components";
+import { useSelector } from "react-redux";
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState("all");
+  const { user } = useSelector((state) => state.auth);
 
   const filteredBlogs =
     activeTab === "all"
@@ -14,7 +16,9 @@ const Admin = () => {
     <div className="flex gap-8 flex-col">
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-bold mb-2">Welcome back, Writer! 👋</h1>
+        <h1 className="text-4xl font-bold mb-2">
+          Welcome back, {user?.fullName} 👋
+        </h1>
         <p className="text-xl text-gray-600">
           Here's what's happening with your blog today.
         </p>
