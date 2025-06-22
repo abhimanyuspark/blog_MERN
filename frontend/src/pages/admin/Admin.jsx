@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { StatsCard, BlogCard } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { dashBoard } from "../../redux/features/dashSlice";
+import { getDashBoard } from "../../redux/features/dashSlice";
 
 const Admin = () => {
   const { user } = useSelector((state) => state.auth);
@@ -9,7 +9,7 @@ const Admin = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(dashBoard());
+    dispatch(getDashBoard());
   }, [dispatch]);
 
   return (
@@ -38,7 +38,7 @@ const Admin = () => {
       {/* Blog Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {dash?.recentBlogs?.map((blog, index) => (
-          <BlogCard key={blog.id} blog={blog} featured={index === 0} />
+          <BlogCard key={index} blog={blog} />
         ))}
       </div>
     </div>

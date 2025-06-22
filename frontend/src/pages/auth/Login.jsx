@@ -6,6 +6,7 @@ import { GoogleLogo } from "../../assets";
 import { useDispatch, useSelector } from "react-redux";
 import { googleLoginUser } from "../../redux/features/authSlice";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -32,8 +33,12 @@ const Login = () => {
 
   const onGoogleSuccess = async (res) => {
     try {
-      await dispatch(googleLoginUser(res["code"])).unwrap();
-      navigate("/");
+      await toast.promise(dispatch(googleLoginUser(res["code"])).unwrap(), {
+        loading: "Loging...",
+        success: "Login SuccessFully",
+        error: "Error Throungh Login",
+      });
+      navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
     }

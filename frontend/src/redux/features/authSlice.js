@@ -1,12 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../lib/axios";
+import { API_ROUTES } from "../../lib/routes";
+const { AUTH } = API_ROUTES;
 
 // Async thunk for user login
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post("/auth/login", credentials);
+      const response = await axiosInstance.post(AUTH.LOGIN, credentials);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
@@ -18,7 +20,7 @@ export const googleLoginUser = createAsyncThunk(
   "auth/googleloginUser",
   async (code, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get("/auth/google-login", {
+      const response = await axiosInstance.get(AUTH.GOOGLE_LOGIN, {
         params: { code },
       });
       return response.data;
@@ -33,7 +35,7 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post("/auth/signup", userData);
+      const response = await axiosInstance.post(AUTH.REGISTER, userData);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
@@ -45,7 +47,7 @@ export const checkAuth = createAsyncThunk(
   "auth/checkAuth",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get("/auth/check");
+      const response = await axiosInstance.get(AUTH.CHECK);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
@@ -57,7 +59,7 @@ export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post("/auth/logout");
+      const response = await axiosInstance.post(AUTH.LOGOUT);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
