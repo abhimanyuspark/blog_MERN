@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Loader, ProtectedRoutes, Layout } from "./components";
+import { Loader, ProtectedRoutes, Layout, GoogleAuth } from "./components";
 import {
   Home,
   Admin,
@@ -11,18 +11,9 @@ import {
 } from "./pages";
 import { Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./redux/features/authSlice";
-
-const client_Id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-const GoogleAuthProvider = ({ children }) => {
-  return (
-    <GoogleOAuthProvider clientId={client_Id}>{children}</GoogleOAuthProvider>
-  );
-};
 
 function App() {
   const dispatch = useDispatch();
@@ -41,31 +32,19 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/details" element={<Details />} />
 
-          <Route
-            path="/login"
-            element={
-              <GoogleAuthProvider>
-                <Login />
-              </GoogleAuthProvider>
-            }
-          />
-          <Route
-            path="/sign-up"
-            element={
-              <GoogleAuthProvider>
-                <SignUp />
-              </GoogleAuthProvider>
-            }
-          />
+          <Route element={<GoogleAuth />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+          </Route>
 
           <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
             <Route path="/admin" element={<Admin />} />
           </Route>
+
+          <Route path="*" element={<NotFound />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>
         {/* Layout */}
-
-        <Route path="*" element={<NotFound />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
 
       <Toaster position="top-center" reverseOrder={false} />

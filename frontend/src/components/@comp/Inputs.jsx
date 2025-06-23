@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaEye, FaEyeSlash, FaRandom } from "react-icons/fa";
 
 const Label = ({ name, label, important }) => {
@@ -23,56 +23,59 @@ const Input = ({
   autoComplete = "off",
   label,
   error,
-  show,
-  setShow,
+
   onRandom,
   important,
   className,
 }) => {
+  const [show, setShow] = useState(false);
+
   return (
-    <div className="relative flex gap-2 flex-col">
+    <div className="flex gap-2 flex-col">
       {label && <Label label={label} name={name} important={important} />}
 
-      <div className="flex gap-2 items-center absolute top-1/2 right-2 text-2xl z-50">
-        {random && (
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              onRandom();
-            }}
-            aria-hidden="true"
-            className="cursor-pointer"
-          >
-            <FaRandom />
-          </div>
-        )}
+      <div className="relative">
+        <input
+          id={name}
+          name={name}
+          autoComplete={autoComplete}
+          type={name === "password" ? (show ? "text" : "password") : type}
+          value={value}
+          placeholder={placeholder}
+          className={`${className} w-full input  ${
+            error ? "input-error" : "input-primary"
+          }`}
+          onChange={onChange}
+        />
 
-        {name === "password" && (
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setShow(!show);
-            }}
-            aria-hidden="true"
-            className="cursor-pointer"
-          >
-            {show ? <FaEye /> : <FaEyeSlash />}
-          </div>
-        )}
+        <div className="flex gap-2 items-center absolute top-2 right-2 text-2xl z-50">
+          {random && (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                onRandom();
+              }}
+              aria-hidden="true"
+              className="cursor-pointer"
+            >
+              <FaRandom />
+            </div>
+          )}
+
+          {name === "password" && (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setShow(!show);
+              }}
+              aria-hidden="true"
+              className="cursor-pointer"
+            >
+              {show ? <FaEye /> : <FaEyeSlash />}
+            </div>
+          )}
+        </div>
       </div>
-
-      <input
-        id={name}
-        name={name}
-        autoComplete={autoComplete}
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        className={`${className} w-full input input-primary ${
-          error ? "input-error" : ""
-        }`}
-        onChange={onChange}
-      />
 
       <p className="text-red-500 text-sm">{error}</p>
     </div>
@@ -162,8 +165,8 @@ const TextArea = ({
         name={name}
         value={value}
         onChange={onChange}
-        className={`${className} w-full textarea-primary textarea textarea-lg ${
-          error ? "textarea-error" : ""
+        className={`${className} w-full textarea textarea-lg ${
+          error ? "textarea-error" : "input-primary"
         }`}
       ></textarea>
       <p className="text-red-500 text-sm">{error}</p>

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { StatsCard, BlogCard } from "../../components";
+import { StatsCard, BlogCard, Chart } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashBoard } from "../../redux/features/dashSlice";
 
@@ -35,8 +35,10 @@ const Admin = () => {
             ))}
       </div>
 
+      <Chart />
+
       {/* Blog Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 *:first:col-span-2 *:first:row-span-1 *:first:h-120 *:nth-[2]:h-120">
         {dash?.recentBlogs?.map((blog, index) => (
           <BlogCard key={index} blog={blog} />
         ))}

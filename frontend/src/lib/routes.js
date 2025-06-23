@@ -1,10 +1,17 @@
 export const API_ROUTES = {
   AUTH: {
     LOGIN: "/auth/login",
-    REGISTER: "/auth/sign-up",
+    REGISTER: "/auth/signup",
     LOGOUT: "/auth/logout",
     GOOGLE_LOGIN: "/auth/google-login",
     CHECK: "/auth/check",
+  },
+  USER: {
+    CREATE: "/users",
+    GET_USERS: "/users",
+    GET_USER_BY_ID: (id) => `/users/${id}`,
+    UPDATE_USER_BY_ID: (id) => `/users/${id}`,
+    DELETE_USER_BY_ID: (id) => `/users/${id}`,
   },
   DASHBOARD: {
     GET_DATA: "/dashboard",

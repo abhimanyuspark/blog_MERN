@@ -33,8 +33,8 @@ const Navbar = () => {
       <nav
         className={`px-4 sm:px-12 lg:px-24 sticky top-0 left-0 w-full z-10 border flex items-center justify-between border-base-300 h-16 ${
           y > 0
-            ? "bg-base-200/80 backdrop-blur-lg shadow-lg"
-            : "bg-base-200 backdrop-blur-sm"
+            ? "bg-base-100/20 backdrop-blur-lg shadow-lg"
+            : "bg-base-100 backdrop-blur-sm"
         }`}
       >
         {/* Left Actions */}
@@ -134,7 +134,11 @@ const Navbar = () => {
                 </li>
                 <li
                   onClick={async () => {
-                    await dispatch(logoutUser());
+                    await toast.promise(dispatch(logoutUser()).unwrap(), {
+                      loading: "Loging out...",
+                      success: "Logout SuccessFully",
+                      error: (err) => err,
+                    });
                     navigate("/login");
                   }}
                 >
