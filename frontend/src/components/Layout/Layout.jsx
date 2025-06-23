@@ -1,25 +1,7 @@
 import { Outlet } from "react-router";
 import Navbar from "../nav/Navbar";
-import useTheme from "../../hooks/useTheme";
-import { themesData } from "../../utils/constants";
-import { useEffect } from "react";
 
 const Layout = () => {
-  const [theme] = useTheme(themesData[0]);
-
-  useEffect(() => {
-    const html = document.getElementsByTagName("html")[0];
-    const prevTheme = html.getAttribute("data-theme");
-    html.setAttribute("data-theme", theme);
-    return () => {
-      if (prevTheme) {
-        html.setAttribute("data-theme", prevTheme);
-      } else {
-        html.removeAttribute("data-theme");
-      }
-    };
-  }, [theme]);
-
   return (
     <div>
       <Navbar />

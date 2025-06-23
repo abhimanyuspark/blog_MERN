@@ -19,7 +19,7 @@ export const fetchBlogs = createAsyncThunk(
 );
 
 const initialState = {
-  blogs: [],
+  blogs: {},
   loading: false,
   error: null,
 };
@@ -36,7 +36,15 @@ const blogSlice = createSlice({
       })
       .addCase(fetchBlogs.fulfilled, (state, action) => {
         state.loading = false;
-        state.blogs = action.payload;
+        // If page > 1, append; else, replace
+        if (action.meta.arg && action.meta.arg.page > 1) {
+          state.blogs.posts.push(...action.payload.posts);
+          // Optionally update other pagination info if needed, e.g.:
+          state.blogs.page = action.payload.page;
+          state.blogs.totalPages = action.payload.totalPages;
+        } else {
+          state.blogs = action.payload;
+        }
       })
       .addCase(fetchBlogs.rejected, (state, action) => {
         state.loading = false;

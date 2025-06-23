@@ -22,7 +22,7 @@ const BlogCard = ({ blog }) => {
       </div>
 
       <div className="flex flex-col justify-between gap-2 p-4 h-2/5">
-        <h4 className="leading-6 text-ellipsis md:text-clip">{blog?.title}</h4>
+        <h4 className="leading-6 break-words line-clamp-2">{blog?.title}</h4>
 
         <div className="flex items-center gap-3 text-base-content/40">
           <span className="flex items-center gap-1">

@@ -5,7 +5,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { Back, GoogleLogo } from "../../assets";
 import { useDispatch, useSelector } from "react-redux";
 import { googleLoginUser, registerUser } from "../../redux/features/authSlice";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { validateForm } from "../../utils/validations";
 
@@ -70,10 +70,14 @@ const SignUp = () => {
 
   return (
     <div className="mx-auto md:mx-20 lg:mx-20 my-2">
-      <div className="border border-base-300 p-6 bg-base-100 h-140 rounded-lg grid grid-cols-1 sm:grid-cols-2 gap-0 sm:gap-8">
-        <div className="flex flex-col justify-between pt-5">
-          <h2 className="text-center">Sign up</h2>
-          <form onSubmit={handleSubmit} className="flex gap-4 flex-col">
+      <div className="border border-base-300 p-6 bg-base-100 shadow-2xl rounded-lg grid grid-cols-1 lg:grid-cols-[25rem_1fr] gap-0 sm:gap-8">
+        <div className="flex flex-col gap-8 pt-5">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-2">Create your account</h2>
+            <p className="text-base-content/70">Sign up to get started</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="flex gap-2 flex-col">
             <Input
               important
               label={"Name"}
@@ -110,6 +114,11 @@ const SignUp = () => {
             >
               Sign up
             </Button>
+            <div className="flex items-center gap-2 my-2">
+              <div className="flex-grow h-px bg-base-300" />
+              <span className="text-xs text-base-content/60">or</span>
+              <div className="flex-grow h-px bg-base-300" />
+            </div>
             <Button
               type="button"
               className="btn bg-white text-black border-[#e5e5e5]"
@@ -121,6 +130,13 @@ const SignUp = () => {
               Sign up with Google
             </Button>
           </form>
+
+          <p className="text-sm text-base-content/70">
+            Have an account?{" "}
+            <Link to="/login" className="link link-hover text-primary">
+              Login
+            </Link>
+          </p>
         </div>
 
         <div className="overflow-hidden rounded-r-lg size-full hidden sm:block">
