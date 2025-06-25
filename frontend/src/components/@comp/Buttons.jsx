@@ -10,7 +10,7 @@ export const Button = ({
     <button
       type={type}
       onClick={onClick}
-      className={`${className} btn w-full ${disabled && "btn-disabled"}`}
+      className={`${className} btn ${disabled && "btn-disabled"}`}
       disabled={disabled}
     >
       {loading && <span className="loading loading-spinner"></span>}

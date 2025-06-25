@@ -14,6 +14,8 @@ import {
   Details,
   NotFound,
   Unauthorized,
+  BlogPosts,
+  Comments,
 } from "./pages";
 import { Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
@@ -21,6 +23,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./redux/features/authSlice";
 import useTheme from "./hooks/useTheme";
 import { themesData } from "./utils/constants";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function App() {
   const dispatch = useDispatch();
@@ -67,6 +72,8 @@ function App() {
         <Route element={<AdminLayout />}>
           <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
             <Route path="/admin/dashboard" element={<Admin />} />
+            <Route path="/admin/blog-posts" element={<BlogPosts />} />
+            <Route path="/admin/comments" element={<Comments />} />
           </Route>
         </Route>
         {/* Admin Layout */}

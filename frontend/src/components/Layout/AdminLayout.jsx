@@ -40,7 +40,7 @@ const AdminLayout = () => {
           </ul>
         </div>
 
-        <div className="px-4 sm:px-12 lg:pr-24 lg:pl-8 py-10">
+        <div className="p-6 relative">
           <Outlet />
         </div>
       </div>

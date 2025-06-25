@@ -23,5 +23,11 @@ export function validateForm(values) {
     }
   }
 
+  if ("title" in values) {
+    if (!values.title || values.title.trim() === "") {
+      errors.title = "Title is required";
+    }
+  }
+
   return errors;
 }
