@@ -16,6 +16,7 @@ import {
   Unauthorized,
   BlogPosts,
   Comments,
+  Editor,
 } from "./pages";
 import { Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
@@ -72,6 +73,8 @@ function App() {
         <Route element={<AdminLayout />}>
           <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
             <Route path="/admin/dashboard" element={<Admin />} />
+            <Route path="/admin/blog-posts/create" element={<Editor />} />
+            <Route path="/admin/blog-posts/edit/:id" element={<Editor />} />
             <Route path="/admin/blog-posts" element={<BlogPosts />} />
             <Route path="/admin/comments" element={<Comments />} />
           </Route>

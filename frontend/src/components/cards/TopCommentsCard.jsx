@@ -25,11 +25,11 @@ const TopCommentsCard = ({ comment }) => {
 
         <div className="flex items-start space-x-3 mt-3">
           <img
-            src={comment?.post.coverImgUrl || Back}
-            alt={comment?.post.title}
+            src={comment?.post?.coverImgUrl || Back}
+            alt={comment?.post?.title}
             className="w-8 h-8 rounded object-cover"
           />
-          <span className="text-sm font-semibold">{comment?.post.title}</span>
+          <span className="text-sm font-semibold">{comment?.post?.title}</span>
         </div>
       </div>
     </div>

@@ -174,4 +174,4 @@ const TextArea = ({
   );
 };
 
-export { CheckBox, InputSelect, Input, TextArea };
+export { CheckBox, InputSelect, Input, TextArea, Label };

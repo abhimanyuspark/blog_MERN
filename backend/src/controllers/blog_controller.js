@@ -1,8 +1,32 @@
 const BlogPost = require("../models/BlogPost");
 const mongoose = require("mongoose");
+const cloudinary = require("../config/cloudinary");
 
 // Helper: Validate MongoDB ObjectId
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
+
+const uploadBlogImage = async (req, res) => {
+  try {
+    const { coverImgUrl } = req?.body;
+    console.log("coverImgUrl received:", coverImgUrl?.slice(0, 50));
+
+    if (!coverImgUrl) {
+      return res.status(400).json({ message: "coverImgUrl is required" });
+    }
+
+    const upload = await cloudinary.uploader.upload(coverImgUrl, {
+      upload_preset: "blog",
+      folder: "Blog",
+    });
+    if (!upload) {
+      return res.status(500).json({ message: "Error uploading image" });
+    }
+
+    res.status(201).json({ coverImgUrl: upload.secure_url });
+  } catch (error) {
+    res.status(500).json({ error: "Upload " + error.message });
+  }
+};
 
 // Create a new blog post
 const createBlogPost = async (req, res) => {
@@ -248,4 +272,5 @@ module.exports = {
   getTopPosts,
   getPostBySlug,
   getPostByTag,
+  uploadBlogImage,
 };

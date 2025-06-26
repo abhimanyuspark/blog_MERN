@@ -47,7 +47,7 @@ const TopInsights = ({ tagUsage }) => {
         }}
       />
 
-      <ul className="flex items-center gap-2 w-full justify-center">
+      <ul className="flex items-center flex-wrap gap-2 w-full justify-center">
         {processedData.map((item, i) => (
           <li key={i} className="badge badge-accent text-accent-content">
             # {item.name}

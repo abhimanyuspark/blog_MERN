@@ -29,5 +29,11 @@ export function validateForm(values) {
     }
   }
 
+  if ("content" in values) {
+    if (!values.content || values.content.trim() === "") {
+      errors.content = "Content is required";
+    }
+  }
+
   return errors;
 }

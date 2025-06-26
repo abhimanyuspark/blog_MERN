@@ -3,6 +3,18 @@ import axiosInstance from "../../lib/axios";
 import { API_ROUTES } from "../../lib/routes";
 const { BLOG_POSTS } = API_ROUTES;
 
+export const uploadImage = createAsyncThunk(
+  "blogs/uploadImage",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(BLOG_POSTS.UPLOAD, formData);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
 export const fetchBlogs = createAsyncThunk(
   "blogs/fetchBlogs",
   async (credentials, { rejectWithValue }) => {
@@ -236,14 +248,13 @@ const blogSlice = createSlice({
       })
       .addCase(updateBlog.fulfilled, (state, action) => {
         state.loading = false;
-        // Optionally update the blog in the posts array
+
+        // Update the blog in posts array if it exists
         if (state.blogs.posts) {
-          const idx = state.blogs.posts.findIndex(
-            (b) => b._id === action.payload._id
+          state.blogs.posts = state.blogs.posts.map((blog) =>
+            blog._id === action.payload._id ? action.payload : blog
           );
-          if (idx !== -1) state.blogs.posts[idx] = action.payload;
         }
-        state.blogs.current = action.payload;
       })
       .addCase(updateBlog.rejected, (state, action) => {
         state.loading = false;

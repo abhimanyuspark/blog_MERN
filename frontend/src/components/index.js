@@ -10,6 +10,11 @@ import ProtectedRoutes from "./authz/ProtectedRoutes";
 import GoogleAuth from "./authz/GoogleOAuth";
 import Chart from "./charts/Chart";
 import PostFormDrawer from "./drawer/PostFormDrawer";
+import Model from "./modal/Modal";
+import Editor from "./@comp/Editor";
+import FileInput from "./@comp/FileInput";
+import TagInput from "./@comp/TagInput";
+import GenreateIdeasCard from "./cards/GenreateIdeasCard";
 
 export {
   Loader,
@@ -24,4 +29,9 @@ export {
   GoogleAuth,
   Chart,
   PostFormDrawer,
+  Model,
+  Editor,
+  FileInput,
+  TagInput,
+  GenreateIdeasCard,
 };

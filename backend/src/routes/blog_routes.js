@@ -13,6 +13,7 @@ const {
   getTopPosts,
   getPostBySlug,
   getPostByTag,
+  uploadBlogImage,
 } = require("../controllers/blog_controller");
 const admin = require("../middlewares/adminOnly");
 
@@ -24,6 +25,7 @@ router.get("/", getAllBlogPosts);
 
 router.get("/search", searchPosts);
 router.get("/trending", getTopPosts);
+router.post("/upload", uploadBlogImage);
 
 router.get("/slug/:slug", getPostBySlug);
 router.get("/tag/:tag", getPostByTag);

@@ -27,6 +27,7 @@ export const API_ROUTES = {
     GET_ALL: "/blogs",
     GET_TRENDING: "/blogs/trending",
     GET_SEARCH: "/blogs/search",
+    UPLOAD: "/blogs/upload",
     GET_POST_BY_ID: (id) => `/blogs/${id}`,
     UPDATE: (id) => `/blogs/${id}`,
     DELETE: (id) => `/blogs/${id}`,

@@ -4,8 +4,8 @@ import { Back } from "../../../assets";
 
 const PostCard = ({ blog, onEdit, onDelete }) => {
   return (
-    <div className="flex gap-4 group cursor-pointer">
-      <div className="overflow-hidden w-14 h-14 rounded-md bg-gray-100 flex-shrink-0">
+    <div className="flex gap-4 group cursor-pointer hover:bg-base-100 p-2 rounded-lg">
+      <div className="overflow-hidden w-12 h-12 rounded-md bg-gray-100 flex-shrink-0">
         <img
           className="w-full h-full object-cover"
           src={blog?.coverImgUrl || Back}
@@ -14,7 +14,7 @@ const PostCard = ({ blog, onEdit, onDelete }) => {
       </div>
 
       <div className="flex justify-between items-center w-full">
-        <div className="flex gap-2 flex-col">
+        <div className="flex gap-1 flex-col">
           <h6 className="font-semibold text-base line-clamp-2">
             {blog?.title}
           </h6>

@@ -42,6 +42,28 @@
     font-size: 1rem; /* 16px */
   }
 
+  .ql-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .ql-editor {
+    word-break: break-word;
+    white-space: pre-wrap;
+    min-height: 100px; /* optional: set a min height */
+    box-sizing: border-box;
+  }
+
+  .ql-toolbar.ql-snow {
+    border: 0px solid !important;
+    border-bottom: 1px solid var(--color-primary) !important;
+  }
+
+  .ql-toolbar.ql-snow + .ql-container.ql-snow {
+    border: 0px solid !important;
+  }
+
   .poppins-thin {
     font-weight: 100;
     font-style: normal;

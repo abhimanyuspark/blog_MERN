@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FiMenu, FiSearch, FiX } from "react-icons/fi";
-import { Link, NavLink, useLocation, useNavigate } from "react-router";
+import { Link, NavLink, useLocation } from "react-router";
 import { GrayLogo, Logo, WhiteLogo } from "../../assets";
 import { adminSideData, navData, themesData } from "../../utils/constants";
 import useTheme from "../../hooks/useTheme";
@@ -116,6 +116,11 @@ const Navbar = () => {
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
               >
+                {user?.roles?.includes("admin") && (
+                  <li>
+                    <Link to="/admin/dashboard">Admin Dashboard</Link>
+                  </li>
+                )}
                 <li>
                   <a className="justify-between">Profile</a>
                 </li>
