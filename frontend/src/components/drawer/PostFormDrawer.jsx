@@ -59,11 +59,11 @@ const PostFormDrawer = ({ open, setClose, children, label = "Label" }) => {
             animate={{ y: "20%" }}
             exit={{ y: "-100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="w-[95%] max-w-2xl h-3/4 flex"
+            className="w-[95%] max-w-2xl h-auto"
           >
             {/* content */}
             <div
-              className="flex-1 bg-base-100 border-l border-base-300 shadow-xl flex flex-col relative"
+              className="w-full h-auto bg-base-100 border-l border-base-300 shadow-xl flex flex-col relative"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-4 border-b border-base-300 flex justify-between items-center">

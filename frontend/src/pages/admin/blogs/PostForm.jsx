@@ -6,7 +6,7 @@ import {
   BlogLoader,
   Editor,
   FileInput,
-  GenreateIdeasCard,
+  GenerateIdeasCard,
   PostFormDrawer,
   TagInput,
 } from "../../../components";
@@ -23,7 +23,7 @@ import { FiSave, FiSend } from "react-icons/fi";
 import { LuSparkles } from "react-icons/lu";
 import axiosInstance from "../../../lib/axios";
 import { API_ROUTES } from "../../../lib/routes";
-import GenreatePostForm from "./GenreatePostForm";
+import GeneratePostForm from "./GeneratePostForm";
 
 const PostForm = () => {
   const { id } = useParams();
@@ -42,7 +42,10 @@ const PostForm = () => {
   const [formError, setFormError] = useState({});
 
   const [postIdeas, setPostsIdeas] = useState([]);
-  const [postIdeasDrawer, setPostsIdeasDrawer] = useState(false);
+  const [postIdeasDrawer, setPostsIdeasDrawer] = useState({
+    open: false,
+    data: null,
+  });
   const [postsIdeasLoading, setPostsIdeasLoading] = useState(false);
 
   const onChange = (e) => {
@@ -88,7 +91,7 @@ const PostForm = () => {
     navigate(-1);
   };
 
-  const onGenreateIdeas = async () => {
+  const onGenerateIdeas = async () => {
     setPostsIdeasLoading(true);
     try {
       const response = await axiosInstance.post(
@@ -124,7 +127,7 @@ const PostForm = () => {
           console.log(err);
         });
     } else {
-      // onGenreateIdeas();
+      onGenerateIdeas();
     }
 
     return () => {};
@@ -137,7 +140,7 @@ const PostForm = () => {
       }  gap-6`}
     >
       {/* Post Form */}
-      <div className="p-4 flex flex-col gap-4 border border-base-300 rounded-lg bg-base-100">
+      <div className="p-4 flex flex-col gap-4 border border-base-300 rounded-lg bg-base-100 h-auto">
         <div>
           <h3 className="font-semibold">
             {id ? "Update Blog Post" : "Create Blog Post"}
@@ -220,7 +223,11 @@ const PostForm = () => {
             <div>
               <Button
                 onClick={() => {
-                  setPostsIdeasDrawer(!postIdeasDrawer);
+                  setPostsIdeasDrawer((p) => ({
+                    ...p,
+                    open: true,
+                    data: null,
+                  }));
                 }}
                 className="btn-accent btn-sm"
               >
@@ -237,16 +244,15 @@ const PostForm = () => {
             ) : (
               <div className="flex flex-col gap-4">
                 {postIdeas?.map((idea, index) => (
-                  <GenreateIdeasCard
+                  <GenerateIdeasCard
                     idea={idea}
                     key={index}
                     onClick={() => {
-                      setFormData({
-                        title: idea?.title,
-                        content: idea?.content,
-                        tags: idea?.tags,
-                        generatedByAi: true,
-                      });
+                      setPostsIdeasDrawer((p) => ({
+                        ...p,
+                        open: true,
+                        data: idea,
+                      }));
                     }}
                   />
                 ))}
@@ -257,12 +263,26 @@ const PostForm = () => {
       )}
 
       <PostFormDrawer
-        open={postIdeasDrawer}
+        label="Generate New Post"
+        open={postIdeasDrawer.open}
         setClose={() => {
-          setPostsIdeasDrawer(!postIdeasDrawer);
+          setPostsIdeasDrawer((p) => ({ ...p, open: false, data: null }));
         }}
       >
-        <GenreatePostForm />
+        <GeneratePostForm
+          postContent={postIdeasDrawer.data}
+          onPostChange={(res) => {
+            setFormData({
+              title: res?.title,
+              content: res?.content,
+              tags: res?.tags,
+              generatedByAi: true,
+            });
+          }}
+          onClose={() => {
+            setPostsIdeasDrawer((p) => ({ ...p, open: false, data: null }));
+          }}
+        />
       </PostFormDrawer>
     </div>
   );

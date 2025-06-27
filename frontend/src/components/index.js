@@ -14,7 +14,7 @@ import Model from "./modal/Modal";
 import Editor from "./@comp/Editor";
 import FileInput from "./@comp/FileInput";
 import TagInput from "./@comp/TagInput";
-import GenreateIdeasCard from "./cards/GenreateIdeasCard";
+import GenerateIdeasCard from "./cards/GenerateIdeasCard";
 
 export {
   Loader,
@@ -33,5 +33,5 @@ export {
   Editor,
   FileInput,
   TagInput,
-  GenreateIdeasCard,
+  GenerateIdeasCard,
 };

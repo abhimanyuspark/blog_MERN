@@ -9,7 +9,7 @@ const GenreateIdeasCard = ({ idea, onClick }) => {
         <span className="badge badge-warning badge-xs">{idea?.tone}</span>
       </div>
       <p className="text-xs text-base-content/50">{idea?.content}</p>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
         {idea?.tags?.map((tag, index) => (
           <div
             key={index}
