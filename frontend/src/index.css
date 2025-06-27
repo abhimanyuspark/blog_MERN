@@ -46,11 +46,13 @@
     width: 100%;
     max-width: 100%;
     overflow-x: auto;
+    height: auto !important;
   }
 
   .ql-editor {
     word-break: break-word;
     white-space: pre-wrap;
+    height: auto !important;
     min-height: 100px; /* optional: set a min height */
     box-sizing: border-box;
   }
@@ -63,94 +65,37 @@
   .ql-toolbar.ql-snow + .ql-container.ql-snow {
     border: 0px solid !important;
   }
+}
 
-  .poppins-thin {
-    font-weight: 100;
-    font-style: normal;
+.loader:hover {
+  background: repeating-linear-gradient(
+      -45deg,
+      var(--color-base-300) 0 10px,
+      #0000 0 20px
+    )
+    right/200% 100%;
+}
+
+@keyframes l3 {
+  100% {
+    background-position: left;
   }
+}
 
-  .poppins-extralight {
-    font-weight: 200;
-    font-style: normal;
+@media (min-width: 360px) {
+  .loader {
+    animation: l3 2s infinite linear;
   }
+}
 
-  .poppins-light {
-    font-weight: 300;
-    font-style: normal;
+@media (min-width: 480px) {
+  .loader {
+    animation: l3 3s infinite linear;
   }
+}
 
-  .poppins-regular {
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  .poppins-medium {
-    font-weight: 500;
-    font-style: normal;
-  }
-
-  .poppins-semibold {
-    font-weight: 600;
-    font-style: normal;
-  }
-
-  .poppins-bold {
-    font-weight: 700;
-    font-style: normal;
-  }
-
-  .poppins-extrabold {
-    font-weight: 800;
-    font-style: normal;
-  }
-
-  .poppins-black {
-    font-weight: 900;
-    font-style: normal;
-  }
-
-  .poppins-thin-italic {
-    font-weight: 100;
-    font-style: italic;
-  }
-
-  .poppins-extralight-italic {
-    font-weight: 200;
-    font-style: italic;
-  }
-
-  .poppins-light-italic {
-    font-weight: 300;
-    font-style: italic;
-  }
-
-  .poppins-regular-italic {
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  .poppins-medium-italic {
-    font-weight: 500;
-    font-style: italic;
-  }
-
-  .poppins-semibold-italic {
-    font-weight: 600;
-    font-style: italic;
-  }
-
-  .poppins-bold-italic {
-    font-weight: 700;
-    font-style: italic;
-  }
-
-  .poppins-extrabold-italic {
-    font-weight: 800;
-    font-style: italic;
-  }
-
-  .poppins-black-italic {
-    font-weight: 900;
-    font-style: italic;
+@media (min-width: 720px) {
+  .loader {
+    animation: l3 4s infinite linear;
   }
 }

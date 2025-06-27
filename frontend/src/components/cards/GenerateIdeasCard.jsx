@@ -1,7 +1,7 @@
 const GenreateIdeasCard = ({ idea, onClick }) => {
   return (
     <div
-      className="bg-base-300 p-2 rounded cursor-pointer flex gap-2 flex-col"
+      className="bg-base-200 hover:bg-base-300 p-2 rounded cursor-pointer flex gap-2 flex-col"
       onClick={onClick}
     >
       <div className="flex items-center gap-2 flex-wrap">

@@ -135,12 +135,12 @@ const PostForm = () => {
 
   return (
     <div
-      className={`grid grid-cols-1 ${
+      className={`grid grid-cols-1 items-start ${
         id ? "sm:grid-cols-1" : "sm:grid-cols-[60%_1fr]"
       }  gap-6`}
     >
       {/* Post Form */}
-      <div className="p-4 flex flex-col gap-4 border border-base-300 rounded-lg bg-base-100 h-auto">
+      <div className="p-4 flex flex-col gap-4 border border-base-300 rounded-lg bg-base-100">
         <div>
           <h3 className="font-semibold">
             {id ? "Update Blog Post" : "Create Blog Post"}
@@ -231,15 +231,16 @@ const PostForm = () => {
                 }}
                 className="btn-accent btn-sm"
               >
-                Genreate New
+                Generate New
               </Button>
             </div>
           </div>
 
           <div>
             {postsIdeasLoading ? (
-              <div className="flex items-center justify-center size-full">
-                Genreating...
+              <div className="flex items-center justify-center size-full gap-4">
+                <span className="loading loading-spinner loading-sm"></span>
+                Generating...
               </div>
             ) : (
               <div className="flex flex-col gap-4">

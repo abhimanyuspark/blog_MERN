@@ -4,7 +4,7 @@ import { Label } from "./Inputs";
 import { useDispatch } from "react-redux";
 import { uploadImage } from "../../redux/features/blogSlice";
 
-const FileInput = ({ label, file, onChange }) => {
+const FileInput = ({ label = "Cover Imgae", file, onChange }) => {
   const dispatch = useDispatch();
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -64,7 +64,7 @@ const FileInput = ({ label, file, onChange }) => {
     <div className="flex gap-2 flex-col">
       <Label label={label} name={label} />
 
-      <div className="w-full border border-dashed border-primary rounded">
+      <div className="w-full border border-primary rounded loader">
         <div className="relative flex flex-col items-center h-60">
           {loading ? (
             <div className="flex size-full text-xl items-center justify-center">

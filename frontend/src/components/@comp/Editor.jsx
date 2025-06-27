@@ -80,7 +80,14 @@ const Editor = ({ value, onChange, label }) => {
 
   return (
     <div className="flex flex-col gap-2 relative size-full">
-      <Label label={label} important />
+      <div
+        onClick={() => {
+          handleFocus();
+          quill.root.focus();
+        }}
+      >
+        <Label label={label} important />
+      </div>
       <div
         className={`w-full h-full rounded border border-primary ${
           focused
