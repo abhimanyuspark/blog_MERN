@@ -3,7 +3,7 @@ import "quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
 import { Label } from "./Inputs";
 
-const Editor = ({ value, onChange, label }) => {
+const Editor = ({ value, onChange, label, error }) => {
   const modules = {
     toolbar: [
       ["bold", "italic", "underline", "strike", "code"],
@@ -89,14 +89,17 @@ const Editor = ({ value, onChange, label }) => {
         <Label label={label} important />
       </div>
       <div
-        className={`w-full h-full rounded border border-primary ${
-          focused
-            ? "outline-2 outline-primary outline-offset-2"
-            : "outline-none"
+        className={`w-full h-full rounded border ${
+          focused ? "outline-2 outline-offset-2" : "outline-none"
+        } ${
+          error
+            ? "outline-2 outline-error outline-offset-2 border-error"
+            : "border-primary outline-primary"
         }`}
       >
         <div className="size-full" ref={quillRef} />
       </div>
+      <div className="text-error text-sm">{error}</div>
     </div>
   );
 };

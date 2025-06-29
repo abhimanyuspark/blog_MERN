@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Label } from "./Inputs";
 import { FiX } from "react-icons/fi";
 
-const TagInput = ({ tags, onChange, label = "Tags", name = "tags" }) => {
+const TagInput = ({ tags, onChange, label = "Tags", name = "tags", error }) => {
   const [input, setInput] = useState("");
   const [focus, setFocus] = useState("");
 
@@ -35,8 +35,12 @@ const TagInput = ({ tags, onChange, label = "Tags", name = "tags" }) => {
       </div>
       <div
         className={`${
-          focus ? "outline-2 outline-primary outline-offset-2" : ""
-        } border border-primary rounded w-full py-2 px-2 bg-base-100`}
+          error
+            ? "outline-error border-error"
+            : "border-primary outline-primary"
+        } ${
+          focus ? "outline-2 outline-offset-2" : ""
+        } border rounded w-full py-2 px-2 bg-base-100`}
       >
         <div className="flex flex-wrap items-center gap-2">
           {tags.map((t, i) => (
@@ -70,6 +74,7 @@ const TagInput = ({ tags, onChange, label = "Tags", name = "tags" }) => {
           />
         </div>
       </div>
+      <div className="text-error text-sm">{error}</div>
     </div>
   );
 };

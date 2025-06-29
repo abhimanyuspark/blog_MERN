@@ -30,8 +30,18 @@ export function validateForm(values) {
   }
 
   if ("content" in values) {
-    if (!values.content || values.content.trim() === "") {
+    if (
+      !values.content ||
+      values.content.trim() === "" ||
+      values.content === "<p><br></p>"
+    ) {
       errors.content = "Content is required";
+    }
+  }
+
+  if ("tags" in values) {
+    if (values.tags.length === 0) {
+      errors.tags = "Tags are required";
     }
   }
 

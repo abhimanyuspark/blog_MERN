@@ -170,17 +170,21 @@ const PostForm = () => {
           />
 
           <Editor
+            error={formError.content}
             label="Content"
             value={formData.content}
             onChange={(d) => {
               setFormData((p) => ({ ...p, content: d }));
+              setFormError((p) => ({ ...p, content: "" }));
             }}
           />
 
           <TagInput
+            error={formError.tags}
             tags={formData.tags || []}
             onChange={(d) => {
               setFormData((p) => ({ ...p, tags: d }));
+              setFormError((p) => ({ ...p, tags: "" }));
             }}
           />
 
@@ -279,6 +283,7 @@ const PostForm = () => {
               tags: res?.tags,
               generatedByAi: true,
             });
+            setFormError({});
           }}
           onClose={() => {
             setPostsIdeasDrawer((p) => ({ ...p, open: false, data: null }));

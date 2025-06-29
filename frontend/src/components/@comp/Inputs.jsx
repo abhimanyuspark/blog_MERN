@@ -77,7 +77,7 @@ const Input = ({
         </div>
       </div>
 
-      <p className="text-red-500 text-sm">{error}</p>
+      <p className="text-error text-sm">{error}</p>
     </div>
   );
 };

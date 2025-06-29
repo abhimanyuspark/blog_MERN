@@ -13,7 +13,7 @@ const createComment = async (req, res) => {
     }
     const comment = await Comment.create({
       author: req.user._id,
-      post: postId,
+      post: post,
       content,
       parentComment: parentComment || null,
     });
@@ -119,7 +119,7 @@ const deleteComment = async (req, res) => {
 
     await Comment.deleteOne({ _id: commentId });
     await Comment.deleteMany({ parentComment: commentId });
-    res.json({ message: "Comment deleted" });
+    res.json(comment);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

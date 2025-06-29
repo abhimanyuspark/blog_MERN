@@ -1,0 +1,101 @@
+import { useState } from "react";
+import { Input } from "../../../components/@comp/Inputs";
+import { Button } from "../../../components/@comp/Buttons";
+import { LuSparkles } from "react-icons/lu";
+import axiosInstance from "../../../lib/axios";
+import { API_ROUTES } from "../../../lib/routes";
+import { useDispatch, useSelector } from "react-redux";
+import { addComment } from "../../../redux/features/commentSlice";
+
+const CommentReplyInput = ({
+  postId,
+  author,
+  parentComment,
+  onReply,
+  parentId,
+}) => {
+  const [text, setText] = useState("");
+  const [textError, setTextError] = useState("");
+  const [generating, setGenerating] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!text) {
+      setTextError("Text is Required");
+      return null;
+    }
+
+    dispatch(
+      addComment({
+        postId,
+        parentComment: parentId,
+        content: text,
+      })
+    );
+
+    setText("");
+  };
+
+  const onGenerate = async () => {
+    setGenerating(true);
+
+    try {
+      const response = await axiosInstance.post(
+        API_ROUTES.AI.GEN_COMMENTS_REPLY,
+        { author, content: parentComment }
+      );
+      setText(response.data);
+    } catch (error) {
+      setTextError(error?.message || error?.error);
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  return (
+    <div className="flex gap-2 items-start w-full pl-12 pt-4">
+      <img className="size-10 rounded-full" src={user?.profilePic} />
+
+      <div className="w-full flex justify-between gap-2 flex-col">
+        <div className="flex justify-between items-center">
+          <span className="text-xs block text-base-content/70">
+            @{user?.fullName}
+          </span>
+          <Button
+            loading={generating}
+            className="btn-xs btn-accent"
+            onClick={onGenerate}
+          >
+            <LuSparkles />
+            Generate Reply
+          </Button>
+        </div>
+
+        <form onSubmit={onSubmit} className="">
+          <Input
+            value={text}
+            error={textError}
+            className={"w-30"}
+            onChange={(e) => {
+              const value = e.target.value;
+              setText(value);
+            }}
+          />
+          <div className="flex justify-end gap-2">
+            <Button onClick={onReply} type="button" className="btn-sm">
+              Cancel
+            </Button>
+            <Button type="submit" className="btn-sm btn-primary">
+              Reply
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default CommentReplyInput;

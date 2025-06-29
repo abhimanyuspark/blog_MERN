@@ -34,7 +34,7 @@ export const addComment = createAsyncThunk(
       return res.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(
-        err.response?.data?.message || err.message
+        err.response?.data?.message || err?.response?.data?.error
       );
     }
   }
@@ -63,8 +63,10 @@ export const deleteComment = createAsyncThunk(
   "comments/deleteComment",
   async (commentId, thunkAPI) => {
     try {
-      await axiosInstance.delete(COMMENTS.DELETE_COMMENT_BY_ID(commentId));
-      return commentId;
+      const response = await axiosInstance.delete(
+        COMMENTS.DELETE_COMMENT_BY_ID(commentId)
+      );
+      return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err.response?.data?.message || err.message
@@ -94,12 +96,27 @@ const commentSlice = createSlice({
       })
       // Add
       .addCase(addComment.pending, (state) => {
-        state.loading = true;
+        // state.loading = true;
         state.error = null;
       })
       .addCase(addComment.fulfilled, (state, action) => {
         state.loading = false;
-        state.comments.push(action.payload);
+        // If the new comment is a reply (has parentComment), add it to the parent's replies array
+        const newComment = action.payload;
+        if (newComment.parentComment) {
+          const parentIdx = state.comments.findIndex(
+            (c) => c._id === newComment.parentComment
+          );
+          if (parentIdx !== -1) {
+            if (!state.comments[parentIdx].replies) {
+              state.comments[parentIdx].replies = [];
+            }
+            state.comments[parentIdx].replies.push(newComment);
+          }
+        } else {
+          // Top-level comment
+          state.comments.push(newComment);
+        }
       })
       .addCase(addComment.rejected, (state, action) => {
         state.loading = false;
@@ -107,7 +124,7 @@ const commentSlice = createSlice({
       })
       // Update
       .addCase(updateComment.pending, (state) => {
-        state.loading = true;
+        // state.loading = true;
         state.error = null;
       })
       .addCase(updateComment.fulfilled, (state, action) => {
@@ -123,12 +140,31 @@ const commentSlice = createSlice({
       })
       // Delete
       .addCase(deleteComment.pending, (state) => {
-        state.loading = true;
+        // state.loading = true;
         state.error = null;
       })
       .addCase(deleteComment.fulfilled, (state, action) => {
         state.loading = false;
-        state.comments = state.comments.filter((c) => c._id !== action.payload);
+
+        const deletedComment = action.payload;
+        if (deletedComment.parentComment) {
+          const parentIdx = state.comments.findIndex(
+            (c) => c._id === deletedComment.parentComment
+          );
+          if (parentIdx !== -1) {
+            if (!state.comments[parentIdx].replies) {
+              state.comments[parentIdx].replies = [];
+            }
+            state.comments[parentIdx].replies = state.comments[
+              parentIdx
+            ].replies.filter((f) => deletedComment?._id !== f?._id);
+          }
+        } else {
+          // Top-level comment
+          state.comments = state.comments.filter(
+            (f) => deletedComment?._id !== f?._id
+          );
+        }
       })
       .addCase(deleteComment.rejected, (state, action) => {
         state.loading = false;
