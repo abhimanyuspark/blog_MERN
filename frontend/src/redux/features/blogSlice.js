@@ -154,6 +154,7 @@ export const likeBlog = createAsyncThunk(
 
 const initialState = {
   blogs: {},
+  blog: {},
   loading: false,
   error: null,
   success: false,
@@ -235,7 +236,7 @@ const blogSlice = createSlice({
       })
       .addCase(fetchBlogById.fulfilled, (state, action) => {
         state.loading = false;
-        state.blogs.current = action.payload;
+        state.blog = action.payload;
       })
       .addCase(fetchBlogById.rejected, (state, action) => {
         state.loading = false;
@@ -298,7 +299,7 @@ const blogSlice = createSlice({
       })
       .addCase(fetchBlogBySlug.fulfilled, (state, action) => {
         state.loading = false;
-        state.blogs.current = action.payload;
+        state.blog = action.payload;
       })
       .addCase(fetchBlogBySlug.rejected, (state, action) => {
         state.loading = false;
@@ -312,11 +313,8 @@ const blogSlice = createSlice({
       .addCase(incrementBlogViews.fulfilled, (state, action) => {
         state.loading = false;
         // Optionally update views in current or posts
-        if (
-          state.blogs.current &&
-          state.blogs.current._id === action.payload._id
-        ) {
-          state.blogs.current.views = action.payload.views;
+        if (state.blog && state.blog._id === action.payload._id) {
+          state.blog.views = action.payload.views;
         }
       })
       .addCase(incrementBlogViews.rejected, (state, action) => {
@@ -331,11 +329,8 @@ const blogSlice = createSlice({
       .addCase(likeBlog.fulfilled, (state, action) => {
         state.loading = false;
         // Optionally update likes in current or posts
-        if (
-          state.blogs.current &&
-          state.blogs.current._id === action.payload._id
-        ) {
-          state.blogs.current.likes = action.payload.likes;
+        if (state.blog && state.blog._id === action.payload._id) {
+          state.blog.likes = action.payload.likes;
         }
       })
       .addCase(likeBlog.rejected, (state, action) => {

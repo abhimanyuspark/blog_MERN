@@ -57,7 +57,7 @@ function App() {
         {/* Layout */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/details" element={<Details />} />
+          <Route path="/details/:id" element={<Details />} />
 
           <Route element={<GoogleAuth />}>
             <Route path="/login" element={<Login />} />

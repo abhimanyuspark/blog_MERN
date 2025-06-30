@@ -78,6 +78,7 @@ const CommentReplyInput = ({
           <Input
             value={text}
             error={textError}
+            placeholder="Add a reply"
             className={"w-30"}
             onChange={(e) => {
               const value = e.target.value;

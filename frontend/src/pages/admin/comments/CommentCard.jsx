@@ -66,7 +66,7 @@ const CommentCard = ({
                 {replies === index ? <FiChevronUp /> : <FiChevronDown />}
               </span>
               <span
-                className="badge badge-sm badge-accent cursor-pointer rounded-md"
+                className="badge badge-sm badge-accent cursor-pointer rounded-md hover:badge-error"
                 onClick={() => onDelete(comment?._id)}
               >
                 <FiTrash />
@@ -112,7 +112,7 @@ const CommentCard = ({
                   <p className="text-sm first-letter:uppercase">{r?.content}</p>
                   <div className="flex items-center gap-2">
                     <span
-                      className="badge badge-sm badge-accent cursor-pointer rounded-md"
+                      className="badge badge-sm badge-accent cursor-pointer rounded-md hover:badge-error"
                       onClick={() => onDelete(r?._id)}
                     >
                       <FiTrash />

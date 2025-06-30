@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "../../../redux/features/blogSlice";
-import { BlogCard } from "../../../components";
+import { BlogCard, FeaturedBlogPost } from "../../../components";
 import { Button } from "../../../components/@comp/Buttons";
 
 const Home = () => {
@@ -18,9 +18,11 @@ const Home = () => {
   }, [dispatch, page]);
 
   return (
-    <div className="flex gap-4 flex-col">
+    <div className="flex gap-8 flex-col">
+      <FeaturedBlogPost blog={blogs?.posts?.[0]} />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {blogs?.posts?.map((blog, index) => (
+        {blogs?.posts?.slice(1)?.map((blog, index) => (
           <BlogCard key={index} blog={blog} />
         ))}
       </div>

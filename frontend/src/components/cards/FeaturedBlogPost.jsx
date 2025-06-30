@@ -1,34 +1,24 @@
-import { Back } from "../../assets";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 
-const BlogCard = ({ blog }) => {
-  const navigate = useNavigate();
-
-  const onNavigate = () => {
-    navigate(`details/${blog?._id}`);
-  };
+const FeaturedBlogPost = ({ blog }) => {
+  if (!blog) return null;
 
   return (
-    <div
-      onClick={onNavigate}
-      className={`group relative bg-base-100 rounded-lg border border-base-300  transition-all duration-500 hover:shadow-2xl`}
-    >
-      <div className="relative overflow-hidden w-full rounded-t-lg">
+    <div className="rounded-xl sm:h-100 h-full overflow-hidden flex sm:flex-row flex-col">
+      {blog?.coverImgUrl && (
         <img
+          src={blog?.coverImgUrl}
           alt={blog?.title}
-          src={blog?.coverImgUrl || Back}
-          className="w-full h-60 object-cover group-hover:scale-105 transition-all duration-300"
+          className="w-full sm:h-full h-70 object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      </div>
+      )}
 
-      <div className="flex flex-col justify-between gap-4 p-4">
-        <h4 className="leading-5 line-clamp-2">{blog?.title}</h4>
+      <div className="p-4 md:p-6 flex gap-4 flex-col">
+        <h2 className="text-2xl md:text-3xl font-bold">{blog?.title}</h2>
         <p
-          className="text-base-content/70 text-sm line-clamp-3"
+          className="text-base-content/70 text-sm line-clamp-4"
           dangerouslySetInnerHTML={{ __html: blog?.content || "" }}
         />
-
         <div className="flex gap-2 items-center flex-wrap">
           {blog?.tags?.map((tag, index) => (
             <Link
@@ -40,7 +30,6 @@ const BlogCard = ({ blog }) => {
             </Link>
           ))}
         </div>
-
         <div className="flex gap-2">
           <img
             className="rounded-full size-10"
@@ -62,4 +51,4 @@ const BlogCard = ({ blog }) => {
   );
 };
 
-export default BlogCard;
+export default FeaturedBlogPost;

@@ -5,16 +5,18 @@ import { GrayLogo, Logo, WhiteLogo } from "../../assets";
 import { adminSideData, navData, themesData } from "../../utils/constants";
 import useTheme from "../../hooks/useTheme";
 import { useWindowScroll } from "@uidotdev/usehooks";
-import Modal from "../modal/Modal";
 import toast from "react-hot-toast";
 import Drawer from "../drawer/Drawer";
 import { useSelector } from "react-redux";
 import Theme from "./Theme";
 import Logout from "./Logout";
+import PostFormDrawer from "../drawer/PostFormDrawer";
+import { Button } from "../@comp/Buttons";
 
 const Navbar = () => {
   const [search, setSearch] = useState("");
   const { user } = useSelector((state) => state.auth);
+  const [openModel, setOpenModel] = useState(false);
 
   const [{ y }] = useWindowScroll();
   const location = useLocation();
@@ -26,7 +28,6 @@ const Navbar = () => {
   const path = admin ? "/admin/dashboard" : "/";
   const Data = admin ? adminSideData : navData;
 
-  const id = "model";
   const menu = "menu";
 
   return (
@@ -78,9 +79,12 @@ const Navbar = () => {
         <div className="flex gap-4 items-center">
           {/* Search Bar */}
           {!admin && (
-            <label htmlFor={id} className="btn btn-ghost btn-circle avatar">
+            <Button
+              onClick={() => setOpenModel(!openModel)}
+              className="btn btn-ghost btn-circle avatar"
+            >
               <FiSearch className="text-base" />
-            </label>
+            </Button>
           )}
 
           {!user && (
@@ -136,11 +140,19 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <Modal id={id}>
+      <PostFormDrawer
+        open={openModel}
+        setClose={() => {
+          setOpenModel(!openModel);
+        }}
+      >
         <form
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-4 p-4"
           onSubmit={(e) => {
             e.preventDefault();
+            toast.success("Successfully toasted!");
+            setSearch("");
+            setOpenModel(!openModel);
           }}
         >
           <label className="input input-primary w-full">
@@ -154,18 +166,11 @@ const Navbar = () => {
             />
           </label>
 
-          <label
-            htmlFor={id}
-            className="btn btn-primary"
-            onClick={() => {
-              toast.success("Successfully toasted!");
-              setSearch("");
-            }}
-          >
+          <Button type="submit" className="btn btn-primary">
             Search
-          </label>
+          </Button>
         </form>
-      </Modal>
+      </PostFormDrawer>
 
       <Drawer id={menu}>
         <div className="border-b border-base-300 h-16 flex items-center px-4 justify-between">
