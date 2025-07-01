@@ -2,6 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../lib/axios";
 import { API_ROUTES } from "../../lib/routes";
 const { AUTH } = API_ROUTES;
+import { io } from "socket.io-client";
+
+const url =
+  import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
 
 // Async thunk for user login
 export const loginUser = createAsyncThunk(
@@ -73,8 +77,39 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
+  socket: null,
 };
 
+export const connectSocket = createAsyncThunk(
+  "auth/connectSocket",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      if (!auth.socket) {
+        const socket = io(url);
+        return socket;
+      }
+      return auth.socket;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const disconnectSocket = createAsyncThunk(
+  "auth/disconnectSocket",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      if (auth.socket) {
+        auth.socket.disconnect();
+      }
+      return null;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
 // Auth slice
 const authSlice = createSlice({
   name: "auth",
@@ -89,6 +124,14 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Socket connect
+      .addCase(connectSocket.fulfilled, (state, action) => {
+        state.socket = action.payload;
+      })
+      // Socket disconnect
+      .addCase(disconnectSocket.fulfilled, (state) => {
+        state.socket = null;
+      })
       // Login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;

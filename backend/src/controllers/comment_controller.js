@@ -1,5 +1,6 @@
 const Comment = require("../models/Comment");
 const BlogPost = require("../models/BlogPost");
+const { io } = require("../config/socket.io");
 
 // Create a new comment
 const createComment = async (req, res) => {
@@ -19,7 +20,7 @@ const createComment = async (req, res) => {
     });
 
     await comment.populate("author", "fullName profilePic");
-
+    io.emit("comment:add", comment);
     return res.status(201).json(comment);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -103,7 +104,7 @@ const updateComment = async (req, res) => {
       .populate("post", "title coverImgUrl");
 
     if (!comment) return res.status(404).json({ error: "Comment not found" });
-
+    io.emit("comment:update", comment);
     res.json(comment);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -119,6 +120,7 @@ const deleteComment = async (req, res) => {
 
     await Comment.deleteOne({ _id: commentId });
     await Comment.deleteMany({ parentComment: commentId });
+    io.emit("comment:delete", comment);
     res.json(comment);
   } catch (err) {
     res.status(500).json({ error: err.message });

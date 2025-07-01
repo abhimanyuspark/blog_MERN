@@ -15,7 +15,7 @@ import { Button } from "../@comp/Buttons";
 
 const Navbar = () => {
   const [search, setSearch] = useState("");
-  const { user } = useSelector((state) => state.auth);
+  const { user, socket } = useSelector((state) => state.auth);
   const [openModel, setOpenModel] = useState(false);
 
   const [{ y }] = useWindowScroll();
@@ -105,12 +105,14 @@ const Navbar = () => {
               <div
                 tabIndex={0}
                 role="button"
-                className="btn btn-ghost btn-circle avatar"
+                className={`btn btn-ghost btn-circle avatar ${
+                  socket?.connected ? "avatar-online" : ""
+                }`}
               >
                 <div className="w-10 rounded-full">
                   <img
                     alt="profilePic"
-                    src={user?.profilePic}
+                    src={user?.profilePic || Logo}
                     onError={(e) => (e.currentTarget.src = Logo)}
                     className="bg-white"
                   />

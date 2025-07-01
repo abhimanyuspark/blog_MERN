@@ -21,17 +21,22 @@ import {
 import { Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { checkAuth } from "./redux/features/authSlice";
+import {
+  checkAuth,
+  connectSocket,
+  disconnectSocket,
+} from "./redux/features/authSlice";
 import useTheme from "./hooks/useTheme";
 import { themesData } from "./utils/constants";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { onSocketAdd, onSocketDelete } from "./redux/features/commentSlice";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function App() {
   const dispatch = useDispatch();
   const [theme] = useTheme(themesData[0]);
-  const { loading } = useSelector((state) => state.auth);
+  const { loading, socket } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(checkAuth());
@@ -49,6 +54,33 @@ function App() {
       }
     };
   }, [theme]);
+
+  useEffect(() => {
+    dispatch(connectSocket());
+
+    return () => {
+      dispatch(disconnectSocket());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleAdd = (comment) => {
+      dispatch(onSocketAdd(comment));
+    };
+    const handleDelete = (comment) => {
+      dispatch(onSocketDelete(comment));
+    };
+
+    socket.on("comment:add", handleAdd);
+    socket.on("comment:delete", handleDelete);
+
+    return () => {
+      socket.off("comment:add", handleAdd);
+      socket.off("comment:delete", handleDelete);
+    };
+  }, [dispatch, socket]);
 
   return (
     <Suspense fallback={<Loader />}>

@@ -33,14 +33,20 @@ const SignUp = () => {
 
     if (isValid) {
       try {
-        await toast.promise(dispatch(registerUser(formData)).unwrap(), {
-          loading: "Signing...",
-          success: "Sign Up SuccessFully",
-          error: (err) => {
-            return err;
-          },
-        });
-        navigate("/", { replace: true });
+        await toast.promise(
+          dispatch(registerUser(formData))
+            .unwrap()
+            .then(() => {
+              navigate("/", { replace: true });
+            }),
+          {
+            loading: "Signing...",
+            success: "Sign Up SuccessFully",
+            error: (err) => {
+              return err;
+            },
+          }
+        );
       } catch (error) {
         console.log(error);
       }

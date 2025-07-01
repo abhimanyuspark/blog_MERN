@@ -15,7 +15,7 @@ import { useNavigate } from "react-router";
 const Comments = ({ postId }) => {
   const dispatch = useDispatch();
   const naviagte = useNavigate();
-  const { comments, loading, error } = useSelector((state) => state.comment);
+  const { comments, loading } = useSelector((state) => state.comment);
   const { user } = useSelector((state) => state.auth);
 
   const [replies, setReplies] = useState(null);

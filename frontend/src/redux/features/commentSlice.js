@@ -92,7 +92,46 @@ export const deleteComment = createAsyncThunk(
 const commentSlice = createSlice({
   name: "comments",
   initialState,
-  reducers: {},
+  reducers: {
+    onSocketAdd: (state, action) => {
+      const newComment = action.payload;
+      if (newComment.parentComment) {
+        const parentIdx = state.comments.findIndex(
+          (c) => c._id === newComment.parentComment
+        );
+        if (parentIdx !== -1) {
+          if (!state.comments[parentIdx].replies) {
+            state.comments[parentIdx].replies = [];
+          }
+          state.comments[parentIdx].replies.push(newComment);
+        }
+      } else {
+        // Top-level comment
+        state.comments.push(newComment);
+      }
+    },
+    onSocketDelete: (state, action) => {
+      const deletedComment = action.payload;
+      if (deletedComment.parentComment) {
+        const parentIdx = state.comments.findIndex(
+          (c) => c._id === deletedComment.parentComment
+        );
+        if (parentIdx !== -1) {
+          if (!state.comments[parentIdx].replies) {
+            state.comments[parentIdx].replies = [];
+          }
+          state.comments[parentIdx].replies = state.comments[
+            parentIdx
+          ].replies.filter((f) => deletedComment?._id !== f?._id);
+        }
+      } else {
+        // Top-level comment
+        state.comments = state.comments.filter(
+          (f) => deletedComment?._id !== f?._id
+        );
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchComments.pending, (state) => {
@@ -128,21 +167,21 @@ const commentSlice = createSlice({
       .addCase(addComment.fulfilled, (state, action) => {
         state.loading = false;
         // If the new comment is a reply (has parentComment), add it to the parent's replies array
-        const newComment = action.payload;
-        if (newComment.parentComment) {
-          const parentIdx = state.comments.findIndex(
-            (c) => c._id === newComment.parentComment
-          );
-          if (parentIdx !== -1) {
-            if (!state.comments[parentIdx].replies) {
-              state.comments[parentIdx].replies = [];
-            }
-            state.comments[parentIdx].replies.push(newComment);
-          }
-        } else {
-          // Top-level comment
-          state.comments.push(newComment);
-        }
+        // const newComment = action.payload;
+        // if (newComment.parentComment) {
+        //   const parentIdx = state.comments.findIndex(
+        //     (c) => c._id === newComment.parentComment
+        //   );
+        //   if (parentIdx !== -1) {
+        //     if (!state.comments[parentIdx].replies) {
+        //       state.comments[parentIdx].replies = [];
+        //     }
+        //     state.comments[parentIdx].replies.push(newComment);
+        //   }
+        // } else {
+        //   // Top-level comment
+        //   state.comments.push(newComment);
+        // }
       })
       .addCase(addComment.rejected, (state, action) => {
         state.loading = false;
@@ -172,25 +211,25 @@ const commentSlice = createSlice({
       .addCase(deleteComment.fulfilled, (state, action) => {
         state.loading = false;
 
-        const deletedComment = action.payload;
-        if (deletedComment.parentComment) {
-          const parentIdx = state.comments.findIndex(
-            (c) => c._id === deletedComment.parentComment
-          );
-          if (parentIdx !== -1) {
-            if (!state.comments[parentIdx].replies) {
-              state.comments[parentIdx].replies = [];
-            }
-            state.comments[parentIdx].replies = state.comments[
-              parentIdx
-            ].replies.filter((f) => deletedComment?._id !== f?._id);
-          }
-        } else {
-          // Top-level comment
-          state.comments = state.comments.filter(
-            (f) => deletedComment?._id !== f?._id
-          );
-        }
+        // const deletedComment = action.payload;
+        // if (deletedComment.parentComment) {
+        //   const parentIdx = state.comments.findIndex(
+        //     (c) => c._id === deletedComment.parentComment
+        //   );
+        //   if (parentIdx !== -1) {
+        //     if (!state.comments[parentIdx].replies) {
+        //       state.comments[parentIdx].replies = [];
+        //     }
+        //     state.comments[parentIdx].replies = state.comments[
+        //       parentIdx
+        //     ].replies.filter((f) => deletedComment?._id !== f?._id);
+        //   }
+        // } else {
+        //   // Top-level comment
+        //   state.comments = state.comments.filter(
+        //     (f) => deletedComment?._id !== f?._id
+        //   );
+        // }
       })
       .addCase(deleteComment.rejected, (state, action) => {
         state.loading = false;
@@ -198,5 +237,7 @@ const commentSlice = createSlice({
       });
   },
 });
+
+export const { onSocketAdd, onSocketDelete } = commentSlice.actions;
 
 export default commentSlice.reducer;

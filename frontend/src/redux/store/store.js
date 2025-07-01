@@ -11,6 +11,10 @@ const store = configureStore({
     blog: blogSlice,
     comment: commentSlice,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;

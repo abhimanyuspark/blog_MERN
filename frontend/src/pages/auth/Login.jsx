@@ -29,12 +29,18 @@ const Login = () => {
 
     if (isValid) {
       try {
-        await toast.promise(dispatch(loginUser(formData)), {
-          loading: "Loging...",
-          success: "Login SuccessFully",
-          error: (err) => err,
-        });
-        navigate("/", { replace: true });
+        await toast.promise(
+          dispatch(loginUser(formData))
+            .unwrap()
+            .then(() => {
+              navigate("/", { replace: true });
+            }),
+          {
+            loading: "Loging...",
+            success: "Login SuccessFully",
+            error: (err) => err,
+          }
+        );
       } catch (error) {
         console.log(error);
       }

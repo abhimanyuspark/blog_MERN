@@ -5,7 +5,7 @@ const cors = require("cors");
 const path = require("path");
 const connectDB = require("./config/connectDb");
 const cors_options = require("./config/cors");
-const app = express();
+const { app, server } = require("./config/socket.io.js");
 
 const PORT = process.env.PORT;
 
@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
   connectDB();
 });
