@@ -18,8 +18,8 @@ export function validateForm(values) {
   if ("password" in values) {
     if (!values.password || values.password.trim() === "") {
       errors.password = "Password is required";
-    } else if (values.password.length < 6) {
-      errors.password = "Password must be at least 6 characters";
+    } else if (values.password.length < 6 || values.password.length > 10) {
+      errors.password = "Password must be between 6 and 10 characters";
     }
   }
 

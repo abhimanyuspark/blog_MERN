@@ -9,6 +9,20 @@ const initialState = {
   error: null,
 };
 
+export const fetchCommentsByPostId = createAsyncThunk(
+  "comments/fetchCommentsByPostId",
+  async (postId, thunkAPI) => {
+    try {
+      const res = await axiosInstance.get(COMMENTS.GET_COMMENT_BY_POST(postId));
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      );
+    }
+  }
+);
+
 export const fetchComments = createAsyncThunk(
   "comments/fetchComments",
   async (postId, thunkAPI) => {
@@ -81,7 +95,6 @@ const commentSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch
       .addCase(fetchComments.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -91,6 +104,19 @@ const commentSlice = createSlice({
         state.comments = action.payload;
       })
       .addCase(fetchComments.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Fetch comments by postId
+      .addCase(fetchCommentsByPostId.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCommentsByPostId.fulfilled, (state, action) => {
+        state.loading = false;
+        state.comments = action.payload;
+      })
+      .addCase(fetchCommentsByPostId.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

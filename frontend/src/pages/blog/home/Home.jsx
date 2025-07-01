@@ -27,11 +27,13 @@ const Home = () => {
         ))}
       </div>
 
-      {blogs?.totalPages !== page && (
-        <Button loading={loading} className="btn-accent" onClick={onLoadMore}>
-          Load More
-        </Button>
-      )}
+      <div className="flex items-center justify-center">
+        {blogs?.totalPages !== page && (
+          <Button loading={loading} className="btn-accent" onClick={onLoadMore}>
+            Load More
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

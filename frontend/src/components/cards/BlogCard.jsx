@@ -1,16 +1,9 @@
-import { Back } from "../../assets";
-import { Link, useNavigate } from "react-router";
+import { Back, Logo } from "../../assets";
+import { Link } from "react-router";
 
 const BlogCard = ({ blog }) => {
-  const navigate = useNavigate();
-
-  const onNavigate = () => {
-    navigate(`details/${blog?._id}`);
-  };
-
   return (
     <div
-      onClick={onNavigate}
       className={`group relative bg-base-100 rounded-lg border border-base-300  transition-all duration-500 hover:shadow-2xl`}
     >
       <div className="relative overflow-hidden w-full rounded-t-lg">
@@ -23,7 +16,9 @@ const BlogCard = ({ blog }) => {
       </div>
 
       <div className="flex flex-col justify-between gap-4 p-4">
-        <h4 className="leading-5 line-clamp-2">{blog?.title}</h4>
+        <h5 className="leading-5 font-semibold line-clamp-2 hover:link-primary">
+          <Link to={`/details/${blog?._id}`}>{blog?.title}</Link>
+        </h5>
         <p
           className="text-base-content/70 text-sm line-clamp-3"
           dangerouslySetInnerHTML={{ __html: blog?.content || "" }}
@@ -44,7 +39,7 @@ const BlogCard = ({ blog }) => {
         <div className="flex gap-2">
           <img
             className="rounded-full size-10"
-            src={blog?.author?.profilePic}
+            src={blog?.author?.profilePic || Logo}
           />
           <div className="text-sm text-base-content/50 flex flex-col">
             <span className="break-words">@{blog?.author?.fullName}</span>

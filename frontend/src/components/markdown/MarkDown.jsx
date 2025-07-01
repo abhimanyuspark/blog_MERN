@@ -1,23 +1,10 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
-import { useState } from "react";
-import { FiCopy, FiCheck } from "react-icons/fi";
-import {
-  oneDark,
-  oneLight,
-} from "react-syntax-highlighter/dist/esm/styles/prism";
+import CodeBlock from "./CodeBlock";
 
 const MarkDown = ({ content, theme }) => {
-  const cleanedMarkdown = content
-    ?.replace(/^<p>/, "") // remove the first <p>
-    ?.replace(/<\/p>$/, ""); // remove the last </p>
-
-  // Use cleanedMarkdown directly for rendering
-  const sanitized = cleanedMarkdown || "";
-
   return (
-    <div className="flex gap-4 flex-col">
+    <div className="flex flex-col gap-4 w-full max-w-full px-2 py-2">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -34,86 +21,149 @@ const MarkDown = ({ content, theme }) => {
               );
             } else {
               return (
-                <code className={className} {...props}>
+                <code
+                  className={`rounded px-1 py-0.5 bg-base-200 text-base-content/90 font-mono text-sm break-words ${
+                    className || ""
+                  }`}
+                  {...props}
+                >
                   {children}
                 </code>
               );
             }
           },
-          p({ node, inline, className, children, ...props }) {
-            return <div {...props}>{children}</div>;
+          a({ node, inline, className, children, ...props }) {
+            return (
+              <a
+                className="link-primary hover:underline break-all"
+                target="_blank"
+                rel="noopener noreferrer"
+                {...props}
+              >
+                {children}
+              </a>
+            );
           },
           ol({ node, inline, className, children, ...props }) {
             return (
-              <ol className="pl-15 flex gap-2 flex-col" {...props}>
+              <ol
+                className="sm:pl-10 pl-5 flex flex-col gap-1 list-decimal text-base-content/70"
+                {...props}
+              >
                 {children}
               </ol>
             );
           },
           ul({ node, inline, className, children, ...props }) {
             return (
-              <ul className="pl-15 flex gap-2 flex-col" {...props}>
+              <ul
+                className="sm:pl-10 pl-5 flex flex-col gap-1 list-disc text-base-content/70"
+                {...props}
+              >
                 {children}
               </ul>
             );
           },
+          h1({ node, inline, className, children, ...props }) {
+            return (
+              <h1
+                className="font-bold text-2xl sm:text-3xl leading-tight mt-4 mb-2 text-base-content"
+                {...props}
+              >
+                {children}
+              </h1>
+            );
+          },
+          h2({ node, inline, className, children, ...props }) {
+            return (
+              <h2
+                className="font-semibold text-xl sm:text-2xl leading-snug mt-4 mb-2 text-base-content"
+                {...props}
+              >
+                {children}
+              </h2>
+            );
+          },
+          h3({ node, inline, className, children, ...props }) {
+            return (
+              <h3
+                className="font-semibold text-lg sm:text-xl leading-snug mt-3 mb-1 text-base-content"
+                {...props}
+              >
+                {children}
+              </h3>
+            );
+          },
+          p({ node, inline, className, children, ...props }) {
+            return (
+              <div
+                className="text-base-content/80 leading-relaxed mb-2 break-words"
+                {...props}
+              >
+                {children}
+              </div>
+            );
+          },
+          em({ node, inline, className, children, ...props }) {
+            return (
+              <em className="text-base-content italic font-semibold" {...props}>
+                {children}
+              </em>
+            );
+          },
+          strong({ node, inline, className, children, ...props }) {
+            return (
+              <strong className="text-base-content font-semibold" {...props}>
+                {children}
+              </strong>
+            );
+          },
+          blockquote({ node, children, ...props }) {
+            return (
+              <blockquote
+                className="border-l-4 border-primary pl-4 italic text-base-content/70 bg-base-200 rounded-md my-2 py-2"
+                {...props}
+              >
+                {children}
+              </blockquote>
+            );
+          },
+          hr() {
+            return <hr className="my-6 border-base-300" />;
+          },
+          table({ children, ...props }) {
+            return (
+              <div className="overflow-x-auto my-4">
+                <table
+                  className="min-w-full border border-base-300 rounded-md"
+                  {...props}
+                >
+                  {children}
+                </table>
+              </div>
+            );
+          },
+          th({ children, ...props }) {
+            return (
+              <th
+                className="px-4 py-2 bg-base-200 text-base-content font-semibold border border-base-300"
+                {...props}
+              >
+                {children}
+              </th>
+            );
+          },
+          td({ children, ...props }) {
+            return (
+              <td className="px-4 py-2 border border-base-300" {...props}>
+                {children}
+              </td>
+            );
+          },
         }}
       >
-        {sanitized}
+        {content}
       </ReactMarkdown>
-    </div>
-  );
-};
-
-const CodeBlock = ({ code, language, theme }) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch (err) {
-      setCopied(false);
-    }
-  };
-
-  return (
-    <div className="bg-base-300 overflow-hidden rounded-lg my-4">
-      <div className="flex justify-between items-center p-4 bg-base-100 text-sm">
-        <span className="font-mono text-sm text-base-content/70">
-          {language || "Code"}
-        </span>
-        <button
-          onClick={handleCopy}
-          className="flex items-center gap-1 px-2 py-1 rounded hover:bg-base-200 transition-colors"
-          aria-label="Copy code"
-        >
-          {copied ? (
-            <>
-              <FiCheck className="text-green-500" />
-              <span className="text-green-500">Copied</span>
-            </>
-          ) : (
-            <>
-              <FiCopy />
-              <span>Copy</span>
-            </>
-          )}
-        </button>
-      </div>
-      <SyntaxHighlighter
-        language={language}
-        style={theme ? oneLight : oneDark}
-        customStyle={{
-          margin: 0,
-          padding: "1rem",
-          fontSize: "1rem",
-          background: "transparent",
-        }}
-      >
-        {code}
-      </SyntaxHighlighter>
     </div>
   );
 };

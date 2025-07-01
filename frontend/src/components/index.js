@@ -19,6 +19,8 @@ import GenerateIdeasCard from "./cards/GenerateIdeasCard";
 
 import MarkDown from "./markdown/MarkDown";
 
+import RecentBlogPostCard from "./cards/RecentBlogPostCard";
+
 export {
   Loader,
   BlogLoader,
@@ -38,4 +40,5 @@ export {
   TagInput,
   GenerateIdeasCard,
   MarkDown,
+  RecentBlogPostCard,
 };

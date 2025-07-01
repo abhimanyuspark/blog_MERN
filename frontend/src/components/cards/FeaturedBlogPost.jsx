@@ -1,20 +1,21 @@
 import { Link } from "react-router";
+import { Back } from "../../assets";
 
 const FeaturedBlogPost = ({ blog }) => {
   if (!blog) return null;
 
   return (
     <div className="rounded-xl sm:h-100 h-full overflow-hidden flex sm:flex-row flex-col">
-      {blog?.coverImgUrl && (
-        <img
-          src={blog?.coverImgUrl}
-          alt={blog?.title}
-          className="w-full sm:h-full h-70 object-cover"
-        />
-      )}
+      <img
+        src={blog?.coverImgUrl || Back}
+        alt={blog?.title}
+        className="sm:w-140 sm:h-full w-full h-70 object-cover"
+      />
 
       <div className="p-4 md:p-6 flex gap-4 flex-col">
-        <h2 className="text-2xl md:text-3xl font-bold">{blog?.title}</h2>
+        <h2 className="text-2xl md:text-3xl font-bold hover:link-primary">
+          <Link to={`/details/${blog?._id}`}>{blog?.title}</Link>
+        </h2>
         <p
           className="text-base-content/70 text-sm line-clamp-4"
           dangerouslySetInnerHTML={{ __html: blog?.content || "" }}

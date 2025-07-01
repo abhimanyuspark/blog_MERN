@@ -1,11 +1,16 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router";
-import { fetchBlogById } from "../../../redux/features/blogSlice";
+import { Link, useParams } from "react-router";
+import { fetchBlogById, fetchBlogs } from "../../../redux/features/blogSlice";
 
 import { BlogLoader, MarkDown } from "../../../components";
-import { Logo } from "../../../assets";
+import { Back, Logo } from "../../../assets";
 import useTheme from "../../../hooks/useTheme";
+import { Button } from "../../../components/@comp/Buttons";
+import RecentsPosts from "./RecentsPosts";
+import { LuSparkles } from "react-icons/lu";
+import SharePost from "./SharePost";
+import Comments from "./Comments";
 
 const Details = () => {
   const { id } = useParams();
@@ -15,7 +20,12 @@ const Details = () => {
 
   useEffect(() => {
     dispatch(fetchBlogById(id));
+    dispatch(fetchBlogs({ page: 1 }));
   }, [dispatch, id]);
+
+  if (loading) {
+    return <BlogLoader />;
+  }
 
   if (error) {
     return <div className="text-center text-red-500 mt-10">{error}</div>;
@@ -26,44 +36,66 @@ const Details = () => {
   }
 
   return (
-    <div>
-      {loading && <BlogLoader />}
+    <div className="flex sm:gap-6 gap-4 flex-col sm:p-4 p-2">
+      <div className="flex sm:flex-row flex-col gap-8">
+        <div className="flex gap-6 flex-col sm:w-[65%] w-full">
+          <h1 className="text-3xl font-bold">{blog?.title}</h1>
 
-      <div className="p-6 rounded-lg bg-base-100 border border-base-300">
-        <h1 className="text-3xl font-bold mb-4">{blog?.title}</h1>
-        <div className="flex items-center mb-6">
+          <div className="flex flex-wrap items-start gap-4 justify-between">
+            <div className="flex items-center">
+              <img
+                src={blog?.author?.profilePic || Logo}
+                alt={blog?.author?.fullName}
+                onError={(e) => {
+                  e.currentTarget.src = Logo;
+                }}
+                className="w-10 h-10 rounded-full mr-3"
+              />
+              <div>
+                <p className="text-base-content/70 font-semibold">
+                  @{blog?.author?.fullName}
+                </p>
+                <p className="text-base-content/50 text-sm">
+                  {new Date(blog?.createdAt).toLocaleDateString()}
+                </p>
+              </div>
+            </div>
+
+            <Button className="btn-accent btn-sm">
+              <LuSparkles /> Summerize Post
+            </Button>
+
+            <div className="flex items-center gap-2 flex-wrap">
+              {blog?.tags?.map((t, i) => (
+                <Link to={`/tag/${t}`} className="badge badge-primary" key={i}>
+                  #{t}
+                </Link>
+              ))}
+            </div>
+          </div>
+
           <img
-            src={blog?.author?.profilePic || Logo}
-            alt={blog?.author?.fullName}
-            onError={(e) => {
-              e.currentTarget.src = Logo;
-            }}
-            className="w-10 h-10 rounded-full mr-3"
+            src={blog?.coverImgUrl || Back}
+            alt={blog?.title}
+            className="w-full h-90 object-cover rounded"
           />
-          <div>
-            <p className="text-base-content/70 font-semibold">
-              @{blog?.author?.fullName}
-            </p>
-            <p className="text-base-content/50 text-sm">
-              {new Date(blog?.createdAt).toLocaleDateString()}
-            </p>
+
+          <div className="border border-base-300 bg-base-100 rounded-lg p-4">
+            <MarkDown
+              content={
+                blog?.content?.replace(/^<p>/, "")?.replace(/<\/p>$/, "") || ""
+              }
+              theme={theme === "light" ? true : false}
+            />
           </div>
         </div>
-        {blog?.coverImgUrl && (
-          <img
-            src={blog?.coverImgUrl}
-            alt={blog?.title}
-            className="w-full h-90 object-cover rounded mb-6"
-          />
-        )}
 
-        <div className="border border-base-300 bg-base-200 rounded-lg p-4">
-          <MarkDown
-            content={blog?.content}
-            theme={theme === "light" ? true : false}
-          />
+        <div className="sm:w-[35%] w-full">
+          <RecentsPosts id={id} />
         </div>
       </div>
+      <SharePost />
+      <Comments postId={blog?._id} />
     </div>
   );
 };

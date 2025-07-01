@@ -6,6 +6,7 @@ import axiosInstance from "../../../lib/axios";
 import { API_ROUTES } from "../../../lib/routes";
 import { useDispatch, useSelector } from "react-redux";
 import { addComment } from "../../../redux/features/commentSlice";
+import { Logo } from "../../../assets";
 
 const CommentReplyInput = ({
   postId,
@@ -56,22 +57,24 @@ const CommentReplyInput = ({
   };
 
   return (
-    <div className="flex gap-2 items-start w-full pl-12 pt-4">
-      <img className="size-10 rounded-full" src={user?.profilePic} />
+    <div className="flex gap-2 items-start w-full">
+      <img className="size-10 rounded-full" src={user?.profilePic || Logo} />
 
       <div className="w-full flex justify-between gap-2 flex-col">
         <div className="flex justify-between items-center">
           <span className="text-xs block text-base-content/70">
             @{user?.fullName}
           </span>
-          <Button
-            loading={generating}
-            className="btn-xs btn-accent"
-            onClick={onGenerate}
-          >
-            <LuSparkles />
-            Generate Reply
-          </Button>
+          {parentComment && (
+            <Button
+              loading={generating}
+              className="btn-xs btn-accent"
+              onClick={onGenerate}
+            >
+              <LuSparkles />
+              Generate Reply
+            </Button>
+          )}
         </div>
 
         <form onSubmit={onSubmit} className="">
@@ -86,7 +89,14 @@ const CommentReplyInput = ({
             }}
           />
           <div className="flex justify-end gap-2">
-            <Button onClick={onReply} type="button" className="btn-sm">
+            <Button
+              type="button"
+              onClick={() => {
+                setText("");
+                onReply();
+              }}
+              className="btn-sm"
+            >
               Cancel
             </Button>
             <Button type="submit" className="btn-sm btn-primary">
