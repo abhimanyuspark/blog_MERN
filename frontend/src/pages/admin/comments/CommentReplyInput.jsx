@@ -6,7 +6,7 @@ import axiosInstance from "../../../lib/axios";
 import { API_ROUTES } from "../../../lib/routes";
 import { useDispatch, useSelector } from "react-redux";
 import { addComment } from "../../../redux/features/commentSlice";
-import { Logo } from "../../../assets";
+import { Avatar } from "../../../components";
 
 const CommentReplyInput = ({
   postId,
@@ -58,7 +58,7 @@ const CommentReplyInput = ({
 
   return (
     <div className="flex gap-2 items-start w-full">
-      <img className="size-10 rounded-full" src={user?.profilePic || Logo} />
+      <Avatar author={user} />
 
       <div className="w-full flex justify-between gap-2 flex-col">
         <div className="flex justify-between items-center">

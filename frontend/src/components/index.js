@@ -21,6 +21,8 @@ import MarkDown from "./markdown/MarkDown";
 
 import RecentBlogPostCard from "./cards/RecentBlogPostCard";
 
+import Avatar from "../components/@comp/Avatar.jsx";
+
 export {
   Loader,
   BlogLoader,
@@ -41,4 +43,5 @@ export {
   GenerateIdeasCard,
   MarkDown,
   RecentBlogPostCard,
+  Avatar,
 };

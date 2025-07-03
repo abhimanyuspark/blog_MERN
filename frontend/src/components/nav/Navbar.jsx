@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiMenu, FiSearch, FiX } from "react-icons/fi";
 import { Link, NavLink, useLocation } from "react-router";
-import { GrayLogo, Logo, WhiteLogo } from "../../assets";
+import { GrayLogo, WhiteLogo } from "../../assets";
 import { adminSideData, navData, themesData } from "../../utils/constants";
 import useTheme from "../../hooks/useTheme";
 import { useWindowScroll } from "@uidotdev/usehooks";
@@ -12,6 +12,7 @@ import Theme from "./Theme";
 import Logout from "./Logout";
 import PostFormDrawer from "../drawer/PostFormDrawer";
 import { Button } from "../@comp/Buttons";
+import Avatar from "../@comp/Avatar";
 
 const Navbar = () => {
   const [search, setSearch] = useState("");
@@ -109,14 +110,7 @@ const Navbar = () => {
                   socket?.connected ? "avatar-online" : ""
                 }`}
               >
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="profilePic"
-                    src={user?.profilePic || Logo}
-                    onError={(e) => (e.currentTarget.src = Logo)}
-                    className="bg-white"
-                  />
-                </div>
+                <Avatar author={user} />
               </div>
               <ul
                 tabIndex={0}

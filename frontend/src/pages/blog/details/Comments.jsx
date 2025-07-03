@@ -54,9 +54,9 @@ const Comments = ({ postId }) => {
 
   return (
     <div className="flex gap-4 flex-col">
-      <h5 className="font-semibold">Comments</h5>
+      <div className="flex items-center justify-between">
+        <h5 className="font-semibold">Comments</h5>
 
-      <div>
         <Button
           className="btn-accent btn-sm"
           onClick={() => {
@@ -83,7 +83,7 @@ const Comments = ({ postId }) => {
         />
       )}
 
-      <div>
+      <div className="flex flex-col gap-2">
         {comments?.map((c, i) => {
           return (
             <CommentCard

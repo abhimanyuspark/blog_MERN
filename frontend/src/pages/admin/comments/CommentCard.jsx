@@ -90,10 +90,7 @@ const CommentCard = ({
           <div className="flex flex-col gap-2 p-2 pl-10">
             {comment?.replies?.map((r) => (
               <div key={r?._id} className="flex gap-3 items-start">
-                <img
-                  className="rounded-full size-10"
-                  src={r?.author?.profilePic}
-                />
+                <Avatar author={r?.author} />
 
                 <div className="flex flex-col gap-1">
                   <div className="text-xs text-base-content/50 flex items-center gap-2">

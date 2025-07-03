@@ -1,5 +1,6 @@
-import { Back, Logo } from "../../assets";
+import { Back } from "../../assets";
 import { Link } from "react-router";
+import Avatar from "../@comp/Avatar";
 
 const BlogCard = ({ blog }) => {
   return (
@@ -37,10 +38,7 @@ const BlogCard = ({ blog }) => {
         </div>
 
         <div className="flex gap-2">
-          <img
-            className="rounded-full size-10"
-            src={blog?.author?.profilePic || Logo}
-          />
+          <Avatar author={blog?.author} />
           <div className="text-sm text-base-content/50 flex flex-col">
             <span className="break-words">@{blog?.author?.fullName}</span>
             <span>

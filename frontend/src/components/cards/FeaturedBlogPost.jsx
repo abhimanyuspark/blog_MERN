@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { Back } from "../../assets";
+import Avatar from "../@comp/Avatar";
 
 const FeaturedBlogPost = ({ blog }) => {
   if (!blog) return null;
@@ -32,10 +33,7 @@ const FeaturedBlogPost = ({ blog }) => {
           ))}
         </div>
         <div className="flex gap-2">
-          <img
-            className="rounded-full size-10"
-            src={blog?.author?.profilePic}
-          />
+          <Avatar author={blog?.author} />
           <div className="text-sm text-base-content/50 flex flex-col">
             <span className="break-words">@{blog?.author?.fullName}</span>
             <span>
