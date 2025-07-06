@@ -5,10 +5,10 @@ import {
   fetchCommentsByPostId,
 } from "../../../redux/features/commentSlice";
 import CommentCard from "./CommentCard";
-import CommentReplyInput from "../../admin/comments/CommentReplyInput";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
-import { Loader } from "../../../components";
+import Loader from "../../../components/loaders/Loader";
+import CommentReplyInput from "../../../components/@comp/CommentReplyInput";
 import { Button } from "../../../components/@comp/Buttons";
 import { useNavigate } from "react-router";
 

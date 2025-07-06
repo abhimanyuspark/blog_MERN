@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs } from "../../../redux/features/blogSlice";
-import { BlogCard, FeaturedBlogPost } from "../../../components";
+import BlogCard from "../../../components/cards/BlogCard";
+import FeaturedBlogPost from "../../../components/cards/FeaturedBlogPost";
 import { Button } from "../../../components/@comp/Buttons";
 
 const Home = () => {

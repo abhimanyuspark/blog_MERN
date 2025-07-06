@@ -1,4 +1,4 @@
-import { Chart } from "../../../components";
+import Chart from "../../../components/charts/Chart";
 
 const TopInsights = ({ tagUsage }) => {
   const processedData = (() => {

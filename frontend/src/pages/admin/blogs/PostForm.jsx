@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import { validateForm } from "../../../utils/validations";
 import { Button } from "../../../components/@comp/Buttons";
 import { Input } from "../../../components/@comp/Inputs";
-import {
-  BlogLoader,
-  Editor,
-  FileInput,
-  GenerateIdeasCard,
-  PostFormDrawer,
-  TagInput,
-} from "../../../components";
+import BlogLoader from "../../../components/loaders/BlogLoader";
+import Editor from "../../../components/@comp/Editor";
+import TagInput from "../../../components/@comp/TagInput";
+import FileInput from "../../../components/@comp/FileInput";
+import GenerateIdeasCard from "../../../components/cards/GenerateIdeasCard";
+import PostFormDrawer from "../../../components/drawer/PostFormDrawer";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createBlog,

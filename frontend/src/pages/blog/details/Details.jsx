@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router";
 import { fetchBlogById, fetchBlogs } from "../../../redux/features/blogSlice";
 
-import { BlogLoader, MarkDown } from "../../../components";
+import BlogLoader from "../../../components/loaders/BlogLoader";
+import MarkDown from "../../../components/markdown/MarkDown";
 import { Back, Logo } from "../../../assets";
 import useTheme from "../../../hooks/useTheme";
 import { Button } from "../../../components/@comp/Buttons";

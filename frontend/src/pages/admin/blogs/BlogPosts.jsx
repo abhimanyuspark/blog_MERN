@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteBlog, fetchBlogs } from "../../../redux/features/blogSlice";
-import { BlogLoader } from "../../../components";
+import BlogLoader from "../../../components/loaders/BlogLoader";
 import { Button } from "../../../components/@comp/Buttons";
 import { FiPlus } from "react-icons/fi";
 import toast from "react-hot-toast";

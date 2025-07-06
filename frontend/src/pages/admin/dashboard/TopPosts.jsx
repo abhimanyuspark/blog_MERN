@@ -1,4 +1,4 @@
-import { TopPostsCard } from "../../../components";
+import TopPostsCard from "../../../components/cards/TopPostsCard";
 
 const TopPosts = ({ topBlogs }) => {
   return (

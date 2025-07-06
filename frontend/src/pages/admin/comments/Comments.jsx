@@ -4,7 +4,7 @@ import {
   deleteComment,
   fetchComments,
 } from "../../../redux/features/commentSlice";
-import { BlogLoader } from "../../../components";
+import BlogLoader from "../../../components/loaders/BlogLoader";
 import CommentCard from "./CommentCard";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";

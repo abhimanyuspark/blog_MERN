@@ -12,7 +12,7 @@ const RecentBlogPostCard = ({ blog }) => {
         />
       </div>
 
-      <h4 className="font-semibold text-sm hover:text-primary transition-colors duration-150 line-clamp-2 leading-5">
+      <h4 className="font-semibold text-sm line-clamp-2 leading-5 text-accent">
         <Link to={`/details/${blog?._id}`}>{blog?.title}</Link>
       </h4>
     </div>

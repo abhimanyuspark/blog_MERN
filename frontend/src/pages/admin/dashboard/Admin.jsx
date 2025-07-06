@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { BlogLoader, StatsCard } from "../../../components";
+import BlogLoader from "../../../components/loaders/BlogLoader";
+import StatsCard from "../../../components/cards/StatusCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashBoard } from "../../../redux/features/dashSlice";
 import TopInsights from "./TopInsights";

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Input } from "../../../components/@comp/Inputs";
-import { Button } from "../../../components/@comp/Buttons";
+import { Input } from "./Inputs";
+import { Button } from "./Buttons";
 import { LuSparkles } from "react-icons/lu";
-import axiosInstance from "../../../lib/axios";
-import { API_ROUTES } from "../../../lib/routes";
+import axiosInstance from "../../lib/axios";
+import { API_ROUTES } from "../../lib/routes";
 import { useDispatch, useSelector } from "react-redux";
-import { addComment } from "../../../redux/features/commentSlice";
-import { Avatar } from "../../../components";
+import { addComment } from "../../redux/features/commentSlice";
+import Avatar from "./Avatar";
 
 const CommentReplyInput = ({
   postId,

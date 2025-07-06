@@ -1,4 +1,4 @@
-import { TopCommentsCard } from "../../../components";
+import TopCommentsCard from "../../../components/cards/TopCommentsCard";
 
 const TopComments = ({ topComments }) => {
   return (

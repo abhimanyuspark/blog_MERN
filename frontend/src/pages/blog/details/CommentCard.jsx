@@ -1,10 +1,10 @@
 import { FiChevronDown, FiChevronUp, FiTrash } from "react-icons/fi";
-import CommentReplyInput from "../../admin/comments/CommentReplyInput";
 import { LuReply } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { Avatar } from "../../../components";
+import Avatar from "../../../components/@comp/Avatar";
+import CommentReplyInput from "../../../components/@comp/CommentReplyInput";
 
 const CommentCard = ({
   index,

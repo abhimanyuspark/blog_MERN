@@ -1,11 +1,10 @@
 import { Suspense, useEffect } from "react";
-import {
-  Loader,
-  ProtectedRoutes,
-  Layout,
-  GoogleAuth,
-  AdminLayout,
-} from "./components";
+import Loader from "./components/loaders/Loader";
+import Layout from "./components/Layout/Layout";
+import AdminLayout from "./components/Layout/AdminLayout";
+import GoogleAuth from "./components/authz/GoogleOAuth";
+import ProtectedRoutes from "./components/authz/ProtectedRoutes";
+
 import {
   Home,
   Admin,

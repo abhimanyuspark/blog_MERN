@@ -1,4 +1,5 @@
-import { Back, Logo } from "../../assets/index";
+import { Back } from "../../assets/index";
+import Avatar from "../@comp/Avatar";
 
 const TopCommentsCard = ({ comment }) => {
   return (

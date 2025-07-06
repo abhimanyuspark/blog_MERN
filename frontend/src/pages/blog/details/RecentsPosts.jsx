@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { RecentBlogPostCard } from "../../../components";
+import RecentBlogPostCard from "../../../components/cards/RecentBlogPostCard";
 
 const RecentsPosts = ({ id }) => {
   const { blogs } = useSelector((state) => state.blog);

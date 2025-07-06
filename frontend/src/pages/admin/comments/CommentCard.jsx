@@ -1,7 +1,8 @@
 import { FiChevronDown, FiChevronUp, FiTrash } from "react-icons/fi";
 import { LuReply } from "react-icons/lu";
 import { Back, Logo } from "../../../assets";
-import CommentReplyInput from "./CommentReplyInput";
+import Avatar from "../../../components/@comp/Avatar";
+import CommentReplyInput from "../../../components/@comp/CommentReplyInput";
 
 const CommentCard = ({
   comment,
