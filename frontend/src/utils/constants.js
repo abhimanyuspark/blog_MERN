@@ -10,11 +10,11 @@ export const navData = [
   },
   {
     name: "React Js",
-    path: "/reactjs",
+    path: "/tag/reactjs",
   },
   {
     name: "Next Js",
-    path: "/nextjs",
+    path: "/tag/nextjs",
   },
 ];
 

@@ -35,7 +35,7 @@ const Drawer = ({ open, setClose, children, label = "Label" }) => {
                   <FiX className="text-xl" />
                 </Button>
               </div>
-              <div className="flex-1 overflow-y-auto">{children}</div>
+              <div className="overflow-auto h-auto max-h-90">{children}</div>
             </div>
           </motion.div>
         </motion.div>

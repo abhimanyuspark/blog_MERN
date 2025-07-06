@@ -57,7 +57,8 @@ const CommentCard = ({
               onClick={onReplies}
               className="badge badge-sm badge-accent cursor-pointer rounded-md"
             >
-              {comment?.replies?.length} replies{" "}
+              {comment?.replies?.length || 0}{" "}
+              {comment?.replies?.length > 0 ? "replies" : "reply"}{" "}
               {replies === index ? <FiChevronUp /> : <FiChevronDown />}
             </span>
             {user?._id === comment?.author?._id && (

@@ -38,15 +38,16 @@ const Home = () => {
         </div>
 
         <div className="sm:hidden flex items-center justify-center">
-          {blogs?.totalPages !== page && (
-            <Button
-              loading={loading}
-              className="btn-accent"
-              onClick={onLoadMore}
-            >
-              Load More
-            </Button>
-          )}
+          {loading ||
+            (blogs?.totalPages !== page && (
+              <Button
+                loading={loading}
+                className="btn-accent"
+                onClick={onLoadMore}
+              >
+                Load More
+              </Button>
+            ))}
         </div>
 
         {/* Trendeing Posts */}
@@ -56,11 +57,16 @@ const Home = () => {
       </div>
 
       <div className="sm:flex hidden items-center justify-center">
-        {blogs?.totalPages !== page && (
-          <Button loading={loading} className="btn-accent" onClick={onLoadMore}>
-            Load More
-          </Button>
-        )}
+        {loading ||
+          (blogs?.totalPages !== page && (
+            <Button
+              loading={loading}
+              className="btn-accent"
+              onClick={onLoadMore}
+            >
+              Load More
+            </Button>
+          ))}
       </div>
     </div>
   );

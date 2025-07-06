@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FiMenu, FiSearch, FiX } from "react-icons/fi";
-import { Link, NavLink, useLocation } from "react-router";
+import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import { GrayLogo, WhiteLogo } from "../../assets";
 import { adminSideData, navData, themesData } from "../../utils/constants";
 import useTheme from "../../hooks/useTheme";
@@ -15,7 +15,8 @@ import Avatar from "../@comp/Avatar";
 import MenuDrawer from "../drawer/MenuDrawer";
 
 const Navbar = () => {
-  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
   const { user, socket } = useSelector((state) => state.auth);
   const [openModel, setOpenModel] = useState(false);
   const [menu, setMenu] = useState(false);
@@ -150,8 +151,9 @@ const Navbar = () => {
           className="flex flex-col gap-4 p-4"
           onSubmit={(e) => {
             e.preventDefault();
+            navigate(`/search/${query}`);
             toast.success("Successfully toasted!");
-            setSearch("");
+            setQuery("");
             setOpenModel(!openModel);
           }}
         >
@@ -159,8 +161,8 @@ const Navbar = () => {
             <FiSearch />
             <input
               type="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
               className="grow"
               placeholder="Search"
             />

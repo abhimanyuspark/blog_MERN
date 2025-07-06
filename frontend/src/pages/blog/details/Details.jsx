@@ -7,11 +7,10 @@ import BlogLoader from "../../../components/loaders/BlogLoader";
 import MarkDown from "../../../components/markdown/MarkDown";
 import { Back, Logo } from "../../../assets";
 import useTheme from "../../../hooks/useTheme";
-import { Button } from "../../../components/@comp/Buttons";
 import RecentsPosts from "./RecentsPosts";
-import { LuSparkles } from "react-icons/lu";
 import SharePost from "./SharePost";
 import Comments from "./Comments";
+import GenerateSummery from "./GenerateSummery";
 
 const Details = () => {
   const { id } = useParams();
@@ -62,9 +61,7 @@ const Details = () => {
               </div>
             </div>
 
-            <Button className="btn-accent btn-sm">
-              <LuSparkles /> Summerize Post
-            </Button>
+            <GenerateSummery blog={blog} theme={theme} />
 
             <div className="flex items-center gap-2 flex-wrap">
               {blog?.tags?.map((t, i) => (
@@ -95,6 +92,7 @@ const Details = () => {
           <RecentsPosts id={id} />
         </div>
       </div>
+
       <SharePost />
       <Comments postId={blog?._id} />
     </div>

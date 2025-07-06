@@ -2,6 +2,8 @@ import { lazy } from "react";
 
 const Home = lazy(() => import("./blog/home/Home.jsx"));
 const Details = lazy(() => import("./blog/details/Details.jsx"));
+const Search = lazy(() => import("./blog/search/Search.jsx"));
+const Tag = lazy(() => import("./blog/tag/Tag.jsx"));
 
 const Admin = lazy(() => import("./admin/dashboard/Admin.jsx"));
 const Editor = lazy(() => import("./admin/blogs/PostForm.jsx"));
@@ -25,4 +27,6 @@ export {
   Unauthorized,
   Login,
   SignUp,
+  Tag,
+  Search,
 };

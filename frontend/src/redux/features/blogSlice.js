@@ -56,11 +56,9 @@ export const fetchTrendingBlogs = createAsyncThunk(
 
 export const searchBlogs = createAsyncThunk(
   "blogs/searchBlogs",
-  async (params, { rejectWithValue }) => {
+  async (query, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get(BLOG_POSTS.GET_SEARCH, {
-        params,
-      });
+      const response = await axiosInstance.get(BLOG_POSTS.GET_SEARCH(query));
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
@@ -156,6 +154,8 @@ const initialState = {
   blogs: {},
   blog: {},
   trendings: [],
+  searchResults: [],
+  byTag: [],
   loading: false,
   error: null,
   success: false,
@@ -224,7 +224,7 @@ const blogSlice = createSlice({
       })
       .addCase(searchBlogs.fulfilled, (state, action) => {
         state.loading = false;
-        state.blogs.searchResults = action.payload;
+        state.searchResults = action.payload;
       })
       .addCase(searchBlogs.rejected, (state, action) => {
         state.loading = false;
@@ -287,7 +287,7 @@ const blogSlice = createSlice({
       })
       .addCase(fetchBlogsByTag.fulfilled, (state, action) => {
         state.loading = false;
-        state.blogs.byTag = action.payload;
+        state.byTag = action.payload;
       })
       .addCase(fetchBlogsByTag.rejected, (state, action) => {
         state.loading = false;
