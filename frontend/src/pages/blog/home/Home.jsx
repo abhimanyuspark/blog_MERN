@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBlogs } from "../../../redux/features/blogSlice";
+import {
+  fetchBlogs,
+  fetchTrendingBlogs,
+} from "../../../redux/features/blogSlice";
 import BlogCard from "../../../components/cards/BlogCard";
 import FeaturedBlogPost from "../../../components/cards/FeaturedBlogPost";
 import { Button } from "../../../components/@comp/Buttons";
+import Trendings from "./Trendings";
 
 const Home = () => {
   const { blogs, loading } = useSelector((state) => state.blog);
@@ -16,19 +20,42 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(fetchBlogs({ page }));
+    dispatch(fetchTrendingBlogs());
   }, [dispatch, page]);
 
   return (
-    <div className="flex gap-8 flex-col">
-      <FeaturedBlogPost blog={blogs?.posts?.[0]} />
+    <div className="flex gap-6 flex-col">
+      <div className="flex flex-col sm:flex-row gap-6">
+        {/* Blog Posts */}
+        <div className="flex gap-6 flex-col sm:w-[65%] w-full">
+          <FeaturedBlogPost blog={blogs?.posts?.[0]} />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {blogs?.posts?.slice(1)?.map((blog, index) => (
-          <BlogCard key={index} blog={blog} />
-        ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {blogs?.posts?.slice(1)?.map((blog, index) => (
+              <BlogCard key={index} blog={blog} />
+            ))}
+          </div>
+        </div>
+
+        <div className="sm:hidden flex items-center justify-center">
+          {blogs?.totalPages !== page && (
+            <Button
+              loading={loading}
+              className="btn-accent"
+              onClick={onLoadMore}
+            >
+              Load More
+            </Button>
+          )}
+        </div>
+
+        {/* Trendeing Posts */}
+        <div className="sm:w-[35%] w-full">
+          <Trendings />
+        </div>
       </div>
 
-      <div className="flex items-center justify-center">
+      <div className="sm:flex hidden items-center justify-center">
         {blogs?.totalPages !== page && (
           <Button loading={loading} className="btn-accent" onClick={onLoadMore}>
             Load More

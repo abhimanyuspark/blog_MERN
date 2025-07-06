@@ -83,6 +83,12 @@ const Comments = ({ postId }) => {
         />
       )}
 
+      {!comments?.length > 0 && (
+        <div className="flex items-center justify-center">
+          <p className="text-base-content/50 text-sm">-- No comments yet --</p>
+        </div>
+      )}
+
       <div className="flex flex-col gap-2">
         {comments?.map((c, i) => {
           return (

@@ -155,6 +155,7 @@ export const likeBlog = createAsyncThunk(
 const initialState = {
   blogs: {},
   blog: {},
+  trendings: [],
   loading: false,
   error: null,
   success: false,
@@ -210,7 +211,7 @@ const blogSlice = createSlice({
       })
       .addCase(fetchTrendingBlogs.fulfilled, (state, action) => {
         state.loading = false;
-        state.blogs.trending = action.payload;
+        state.trendings = action.payload;
       })
       .addCase(fetchTrendingBlogs.rejected, (state, action) => {
         state.loading = false;

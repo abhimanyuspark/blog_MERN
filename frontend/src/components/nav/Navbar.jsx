@@ -6,18 +6,19 @@ import { adminSideData, navData, themesData } from "../../utils/constants";
 import useTheme from "../../hooks/useTheme";
 import { useWindowScroll } from "@uidotdev/usehooks";
 import toast from "react-hot-toast";
-import Drawer from "../drawer/Drawer";
 import { useSelector } from "react-redux";
 import Theme from "./Theme";
 import Logout from "./Logout";
-import PostFormDrawer from "../drawer/PostFormDrawer";
+import Drawer from "../drawer/Drawer";
 import { Button } from "../@comp/Buttons";
 import Avatar from "../@comp/Avatar";
+import MenuDrawer from "../drawer/MenuDrawer";
 
 const Navbar = () => {
   const [search, setSearch] = useState("");
   const { user, socket } = useSelector((state) => state.auth);
   const [openModel, setOpenModel] = useState(false);
+  const [menu, setMenu] = useState(false);
 
   const [{ y }] = useWindowScroll();
   const location = useLocation();
@@ -28,8 +29,6 @@ const Navbar = () => {
   const admin = location.pathname.split("/")[1] === "admin";
   const path = admin ? "/admin/dashboard" : "/";
   const Data = admin ? adminSideData : navData;
-
-  const menu = "menu";
 
   return (
     <>
@@ -46,9 +45,14 @@ const Navbar = () => {
         <div className="flex gap-4 items-center">
           {/* Menu */}
           <div className="sm:hidden block">
-            <label htmlFor={menu} className="text-2xl">
+            <button
+              onClick={() => {
+                setMenu(!menu);
+              }}
+              className="text-2xl"
+            >
               <FiMenu />
-            </label>
+            </button>
           </div>
 
           {/* Logo */}
@@ -136,7 +140,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <PostFormDrawer
+      <Drawer
         open={openModel}
         setClose={() => {
           setOpenModel(!openModel);
@@ -166,35 +170,50 @@ const Navbar = () => {
             Search
           </Button>
         </form>
-      </PostFormDrawer>
-
-      <Drawer id={menu}>
-        <div className="border-b border-base-300 h-16 flex items-center px-4 justify-between">
-          <Link to={path} className="w-40 h-9 block overflow-hidden">
-            <img src={image} className="size-full" alt="logo" />
-          </Link>
-          <label htmlFor={menu}>
-            <FiX className="text-2xl" />
-          </label>
-        </div>
-
-        <ul className="p-2 flex flex-col gap-4">
-          {Data.map((n, i) => (
-            <li key={i} className="text-lg">
-              <NavLink
-                className={({ isActive }) =>
-                  `${
-                    isActive ? "bg-accent" : "text-base-content/50"
-                  } hover:text-base-content`
-                }
-                to={n.path}
-              >
-                {n.name}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
       </Drawer>
+
+      <MenuDrawer
+        open={menu}
+        setClose={() => {
+          setMenu(!menu);
+        }}
+      >
+        <div className="overflow-y-auto">
+          <div className="sticky top-0 left-0 w-full border-b border-base-300 h-16 flex items-center px-4 justify-between">
+            <Link
+              to={path}
+              className="w-40 h-9 block overflow-hidden"
+              onClick={() => setMenu(!menu)}
+            >
+              <img src={image} className="size-full" alt="logo" />
+            </Link>
+            <Button className="btn-sm" onClick={() => setMenu(!menu)}>
+              <FiX className="text-xl" />
+            </Button>
+          </div>
+          <div className="txt-sm flex gap-2 flex-col p-4 text-center">
+            <p className="text-base-content/80 truncate">{user?.fullName}</p>
+            <p className="truncate">{user?.email}</p>
+          </div>
+          <ul className="p-2 flex flex-col gap-4">
+            {Data.map((n, i) => (
+              <li key={i} className="text-lg">
+                <NavLink
+                  className={({ isActive }) =>
+                    `p-2 w-full block rounded-lg ${
+                      isActive ? "bg-accent" : "text-base-content/50"
+                    } hover:text-base-content`
+                  }
+                  to={n.path}
+                  onClick={() => setMenu(!menu)}
+                >
+                  {n.name}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </MenuDrawer>
     </>
   );
 };

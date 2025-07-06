@@ -37,7 +37,7 @@ const Details = () => {
   }
 
   return (
-    <div className="flex sm:gap-6 gap-4 flex-col sm:p-4 p-2">
+    <div className="flex sm:gap-6 gap-4 flex-col">
       <div className="flex sm:flex-row flex-col gap-8">
         <div className="flex gap-6 flex-col sm:w-[65%] w-full">
           <h1 className="text-3xl font-bold">{blog?.title}</h1>

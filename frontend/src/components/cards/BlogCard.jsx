@@ -5,7 +5,7 @@ import Avatar from "../@comp/Avatar";
 const BlogCard = ({ blog }) => {
   return (
     <div
-      className={`group relative bg-base-100 rounded-lg border border-base-300  transition-all duration-500 hover:shadow-2xl`}
+      className={`group relative bg-base-100 rounded-lg border border-base-300  transition-all duration-500 shadow-md hover:shadow-xl`}
     >
       <div className="relative overflow-hidden w-full rounded-t-lg">
         <img
@@ -13,7 +13,6 @@ const BlogCard = ({ blog }) => {
           src={blog?.coverImgUrl || Back}
           className="w-full h-60 object-cover group-hover:scale-105 transition-all duration-300"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </div>
 
       <div className="flex flex-col justify-between gap-4 p-4">

@@ -4,7 +4,6 @@ import Layout from "./components/Layout/Layout";
 import AdminLayout from "./components/Layout/AdminLayout";
 import GoogleAuth from "./components/authz/GoogleOAuth";
 import ProtectedRoutes from "./components/authz/ProtectedRoutes";
-
 import {
   Home,
   Admin,

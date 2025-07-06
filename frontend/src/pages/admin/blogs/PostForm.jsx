@@ -7,7 +7,7 @@ import Editor from "../../../components/@comp/Editor";
 import TagInput from "../../../components/@comp/TagInput";
 import FileInput from "../../../components/@comp/FileInput";
 import GenerateIdeasCard from "../../../components/cards/GenerateIdeasCard";
-import PostFormDrawer from "../../../components/drawer/PostFormDrawer";
+import Drawer from "../../../components/drawer/Drawer";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createBlog,
@@ -265,7 +265,7 @@ const PostForm = () => {
         </div>
       )}
 
-      <PostFormDrawer
+      <Drawer
         label="Generate New Post"
         open={postIdeasDrawer.open}
         setClose={() => {
@@ -287,7 +287,7 @@ const PostForm = () => {
             setPostsIdeasDrawer((p) => ({ ...p, open: false, data: null }));
           }}
         />
-      </PostFormDrawer>
+      </Drawer>
     </div>
   );
 };
