@@ -1,0 +1,21 @@
+{
+  "name": "blog_mern",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/abhimanyuspark/blog_MERN#readme",
+  "bugs": {
+    "url": "https://github.com/abhimanyuspark/blog_MERN/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhimanyuspark/blog_MERN.git"
+  },
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "license": "ISC",
+  "author": "Abhimanyu",
+  "type": "commonjs",
+  "main": "index.js"
+}
