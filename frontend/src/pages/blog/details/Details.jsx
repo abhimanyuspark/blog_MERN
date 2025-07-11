@@ -37,8 +37,8 @@ const Details = () => {
 
   return (
     <div className="flex sm:gap-6 gap-4 flex-col">
-      <div className="flex sm:flex-row flex-col gap-8">
-        <div className="flex gap-6 flex-col sm:w-[65%] w-full">
+      <div className="flex sm:flex-row flex-col gap-6">
+        <div className="flex gap-6 flex-col sm:w-[70%] w-full">
           <h1 className="text-3xl font-bold">{blog?.title}</h1>
 
           <div className="flex flex-wrap items-start gap-4 justify-between">
@@ -88,7 +88,7 @@ const Details = () => {
           </div>
         </div>
 
-        <div className="sm:w-[35%] w-full">
+        <div className="sm:w-[30%] w-full">
           <RecentsPosts id={id} />
         </div>
       </div>

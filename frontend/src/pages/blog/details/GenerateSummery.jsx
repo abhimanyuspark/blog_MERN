@@ -69,7 +69,7 @@ const GenerateSummery = ({ blog, theme }) => {
           </p>
         )}
 
-        <div className="p-4">
+        <div className="p-4 pb-8">
           <MarkDown
             theme={theme === "light" ? true : false}
             content={

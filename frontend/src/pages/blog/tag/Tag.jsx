@@ -21,7 +21,13 @@ const Tag = () => {
 
   return (
     <div>
-      Tag : {tag}
+      <h4>Tag : {tag}</h4>
+
+      {!byTag?.length > 0 && (
+        <div className="text-center text-sm text-base-content/60">
+          -- No Result Found --
+        </div>
+      )}
       <div>
         {byTag?.map((b, i) => (
           <div key={i}>{b?.title}</div>

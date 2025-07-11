@@ -27,7 +27,7 @@ const Home = () => {
     <div className="flex gap-6 flex-col">
       <div className="flex flex-col sm:flex-row gap-6">
         {/* Blog Posts */}
-        <div className="flex gap-6 flex-col sm:w-[65%] w-full">
+        <div className="flex gap-6 flex-col sm:w-[70%] w-full">
           <FeaturedBlogPost blog={blogs?.posts?.[0]} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -51,7 +51,7 @@ const Home = () => {
         </div>
 
         {/* Trendeing Posts */}
-        <div className="sm:w-[35%] w-full">
+        <div className="sm:w-[30%] w-full">
           <Trendings />
         </div>
       </div>

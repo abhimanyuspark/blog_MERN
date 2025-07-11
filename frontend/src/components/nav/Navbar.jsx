@@ -50,7 +50,7 @@ const Navbar = () => {
               onClick={() => {
                 setMenu(!menu);
               }}
-              className="text-2xl"
+              className="text-2xl cursor-pointer"
             >
               <FiMenu />
             </button>
@@ -108,14 +108,19 @@ const Navbar = () => {
           {/* Avatar */}
           {user && (
             <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className={`btn btn-ghost btn-circle avatar ${
-                  socket?.connected ? "avatar-online" : ""
-                }`}
-              >
-                <Avatar author={user} />
+              <div className="flex items-center gap-2">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className={`btn btn-ghost btn-circle avatar ${
+                    socket?.connected ? "avatar-online" : ""
+                  }`}
+                >
+                  <Avatar author={user} />
+                </div>
+                <span className="text-sm text-base-content/50 sm:block hidden">
+                  {user?.fullName}
+                </span>
               </div>
               <ul
                 tabIndex={0}
@@ -146,6 +151,7 @@ const Navbar = () => {
         setClose={() => {
           setOpenModel(!openModel);
         }}
+        label="Search"
       >
         <form
           className="flex flex-col gap-4 p-4"
@@ -161,6 +167,7 @@ const Navbar = () => {
             <FiSearch />
             <input
               type="search"
+              autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="grow"

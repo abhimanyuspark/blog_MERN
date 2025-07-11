@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { searchBlogs } from "../../../redux/features/blogSlice";
 import BlogLoader from "../../../components/loaders/BlogLoader";
+import BlogCard from "../../../components/cards/BlogCard";
 
 const Search = () => {
   const { query } = useParams();
@@ -21,10 +22,17 @@ const Search = () => {
 
   return (
     <div>
-      Search : {query}
-      <div>
+      <h4>Search : {query}</h4>
+
+      {!searchResults?.length > 0 && (
+        <div className="text-center text-sm text-base-content/60">
+          -- No Search Result Found --
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
         {searchResults?.map((b, i) => (
-          <div key={i}>{b?.title}</div>
+          <BlogCard blog={b} key={i} />
         ))}
       </div>
     </div>
