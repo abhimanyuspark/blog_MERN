@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Back } from "../../assets";
 
 const RecentBlogPostCard = ({ blog }) => {
@@ -8,12 +8,22 @@ const RecentBlogPostCard = ({ blog }) => {
     navigate(`/details/${blog?._id}`);
   };
 
+  const tag = blog?.tags?.[0];
+
   return (
     <div
       className="group/item flex gap-2 flex-col p-3 bg-base-100 hover:shadow-lg rounded-lg transition-shadow duration-200 cursor-pointer shadow"
       onClick={onClick}
     >
-      <p className="text-xs text-accent">{blog?.tags?.[0]}</p>
+      <div>
+        <Link
+          to={`/tag/${tag}`}
+          onClick={(e) => e.stopPropagation()}
+          className="text-xs text-accent inline w-auto hover:underline"
+        >
+          {tag}
+        </Link>
+      </div>
 
       <div className="flex gap-4">
         <div className="w-15 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">

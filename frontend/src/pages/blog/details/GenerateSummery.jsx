@@ -56,7 +56,11 @@ const GenerateSummery = ({ blog, theme }) => {
         setClose={() => {
           setSummery((p) => ({ ...p, open: false, error: null, data: null }));
         }}
-        label="Summery"
+        label={
+          <div className="flex gap-2 items-center text-accent">
+            <LuSparkles /> <span className="text-xl">Summery</span>
+          </div>
+        }
       >
         {summery?.error && (
           <p className="text-error text-sm text-center">{summery?.error}</p>
@@ -85,7 +89,7 @@ const GenerateSummery = ({ blog, theme }) => {
               onClick={onGenerateSummery}
               className="btn-secondary btn-xs group"
             >
-              <GrRefresh className="group-hover:rotate-360 transition duration-400 text-lg" />
+              <GrRefresh className="group-hover:rotate-360 transition duration-600 text-lg" />
             </Button>
           </div>
         )}

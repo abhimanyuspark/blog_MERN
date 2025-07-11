@@ -1,7 +1,7 @@
 import { MdOutlineDashboard, MdLayers } from "react-icons/md";
 import { BiCommentDetail } from "react-icons/bi";
 
-export const themesData = ["light", "dark"];
+export const themesData = ["light", "dracula"];
 
 export const navData = [
   {

@@ -47,13 +47,12 @@ const Comments = () => {
         <h3 className="font-semibold">Comments</h3>
       </div>
 
-      {comments.length === 0 && !loading && (
-        <div className="w-full flex items-center justify-center text-base">
-          -- No Comment Found --
-        </div>
-      )}
-
       <div className="flex gap-2 flex-col bg-base-100 border border-base-300 rounded-lg p-4">
+        {comments.length === 0 && !loading && (
+          <div className="w-full flex items-center justify-center text-base">
+            -- No Comment Found --
+          </div>
+        )}
         {comments?.map((c, index) => (
           <CommentCard
             key={c?._id}

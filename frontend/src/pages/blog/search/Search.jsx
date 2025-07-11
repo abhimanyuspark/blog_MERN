@@ -21,8 +21,13 @@ const Search = () => {
   }
 
   return (
-    <div>
-      <h4>Search : {query}</h4>
+    <div className="flex flex-col gap-6">
+      <h5>
+        <span className="text-base-content/60">
+          Showing search results matching
+        </span>
+        <span className="ml-2">"{query}"</span>
+      </h5>
 
       {!searchResults?.length > 0 && (
         <div className="text-center text-sm text-base-content/60">

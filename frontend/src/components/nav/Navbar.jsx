@@ -50,7 +50,7 @@ const Navbar = () => {
               onClick={() => {
                 setMenu(!menu);
               }}
-              className="text-2xl cursor-pointer"
+              className="btn btn-ghost btn-circle avatar text-2xl"
             >
               <FiMenu />
             </button>
@@ -176,6 +176,7 @@ const Navbar = () => {
           </label>
 
           <Button type="submit" className="btn btn-primary">
+            <FiSearch className="text-lg" />
             Search
           </Button>
         </form>
@@ -200,7 +201,8 @@ const Navbar = () => {
               <FiX className="text-xl" />
             </Button>
           </div>
-          <div className="txt-sm flex gap-2 flex-col p-4 text-center">
+          <div className="txt-sm flex gap-2 flex-col p-4 items-center text-center">
+            <Avatar size={80} author={user} />
             <p className="text-base-content/80 truncate">{user?.fullName}</p>
             <p className="truncate">{user?.email}</p>
           </div>
@@ -211,7 +213,7 @@ const Navbar = () => {
                   className={({ isActive }) =>
                     `p-2 w-full block rounded-lg ${
                       isActive ? "bg-accent" : "text-base-content/50"
-                    } hover:text-base-content`
+                    } hover:text-base-content text-center`
                   }
                   to={n.path}
                   onClick={() => setMenu(!menu)}

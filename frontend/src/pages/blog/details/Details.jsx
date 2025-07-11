@@ -11,6 +11,7 @@ import RecentsPosts from "./RecentsPosts";
 import SharePost from "./SharePost";
 import Comments from "./Comments";
 import GenerateSummery from "./GenerateSummery";
+import Avatar from "../../../components/@comp/Avatar";
 
 const Details = () => {
   const { id } = useParams();
@@ -41,27 +42,22 @@ const Details = () => {
         <div className="flex gap-6 flex-col sm:w-[70%] w-full">
           <h1 className="text-3xl font-bold">{blog?.title}</h1>
 
-          <div className="flex flex-wrap items-start gap-4 justify-between">
-            <div className="flex items-center">
-              <img
-                src={blog?.author?.profilePic || Logo}
-                alt={blog?.author?.fullName}
-                onError={(e) => {
-                  e.currentTarget.src = Logo;
-                }}
-                className="w-10 h-10 rounded-full mr-3"
-              />
-              <div>
-                <p className="text-base-content/70 font-semibold">
-                  @{blog?.author?.fullName}
-                </p>
-                <p className="text-base-content/50 text-sm">
-                  {new Date(blog?.createdAt).toLocaleDateString()}
-                </p>
+          <div className="flex flex-col gap-6">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <Avatar author={blog?.author} size={45} />
+                <div>
+                  <p className="text-base-content/70 font-semibold">
+                    @{blog?.author?.fullName}
+                  </p>
+                  <p className="text-base-content/50 text-sm">
+                    {new Date(blog?.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <GenerateSummery blog={blog} theme={theme} />
+              <GenerateSummery blog={blog} theme={theme} />
+            </div>
 
             <div className="flex items-center gap-2 flex-wrap">
               {blog?.tags?.map((t, i) => (

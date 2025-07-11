@@ -10,7 +10,7 @@ import { Button } from "../../../components/@comp/Buttons";
 import Trendings from "./Trendings";
 
 const Home = () => {
-  const { blogs, loading } = useSelector((state) => state.blog);
+  const { blogs, loading, success } = useSelector((state) => state.blog);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
 
@@ -56,9 +56,15 @@ const Home = () => {
         </div>
       </div>
 
+      {!loading && success && blogs?.posts?.length === 0 && (
+        <div className="flex items-center justify-center p-2 text-base-content/50">
+          No posts found
+        </div>
+      )}
+
       <div className="sm:flex hidden items-center justify-center">
         {loading ||
-          (blogs?.totalPages !== page && (
+          (blogs?.posts?.length > 0 && page !== blogs?.totalPages && (
             <Button
               loading={loading}
               className="btn-accent"

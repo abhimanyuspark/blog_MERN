@@ -6,7 +6,7 @@ const Theme = () => {
 
   return (
     <label className="flex items-center justify-between capitalize">
-      Theme - {theme}{" "}
+      Theme - {theme === themesData[1] ? "Dark" : theme}{" "}
       <input
         checked={theme === themesData[1]}
         type="checkbox"

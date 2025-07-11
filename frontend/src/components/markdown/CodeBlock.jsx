@@ -1,4 +1,4 @@
-import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import { useState } from "react";
 import { FiCopy, FiCheck, FiCode } from "react-icons/fi";
 import {

@@ -1,8 +1,21 @@
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "../@comp/Buttons";
 import { FiX } from "react-icons/fi";
+import { useEffect } from "react";
 
 const Drawer = ({ open, setClose, children, label = "Label" }) => {
+  // Prevent body scroll when drawer is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
     <AnimatePresence>
       {open && (

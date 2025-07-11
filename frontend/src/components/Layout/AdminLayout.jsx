@@ -2,6 +2,7 @@ import { NavLink, Outlet } from "react-router";
 import { adminSideData } from "../../utils/constants";
 import Navbar from "../nav/Navbar";
 import { useSelector } from "react-redux";
+import Footer from "../footer/Footer";
 
 const AdminLayout = () => {
   const { user } = useSelector((state) => state.auth);
@@ -42,6 +43,7 @@ const AdminLayout = () => {
 
         <div className="p-6 relative">
           <Outlet />
+          <Footer />
         </div>
       </div>
     </div>

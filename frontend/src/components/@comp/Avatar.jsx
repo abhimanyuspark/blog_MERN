@@ -1,12 +1,25 @@
 import { Logo } from "../../assets";
 
-const Avatar = ({ author }) => {
+const Avatar = ({ author, className, size = 40 }) => {
+  const avatarSize = {
+    width: size,
+    height: size,
+    minWidth: size,
+    minHeight: size,
+    maxWidth: size,
+    maxHeight: size,
+  };
+
   return (
-    <div className="rounded-full size-10 overflow-hidden">
+    <div
+      className={`rounded-full overflow-hidden ${className || ""}`}
+      style={avatarSize}
+    >
       <img
         className="size-full object-contain"
         src={author?.profilePic || Logo}
         onError={(e) => (e.currentTarget.src = Logo)}
+        alt="avatar"
       />
     </div>
   );
