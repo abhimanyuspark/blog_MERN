@@ -14,7 +14,7 @@ const FeaturedBlogPost = ({ blog }) => {
       />
 
       <div className="p-4 md:p-6 flex gap-4 flex-col w-full sm:w-1/2">
-        <h2 className="text-base md:text-2xl font-semibold leading-5 sm:leading-7 hover:link-primary">
+        <h2 className="text-base md:text-2xl font-semibold leading-5 sm:leading-7.5 hover:link-primary">
           <Link to={`/details/${blog?._id}`}>{blog?.title}</Link>
         </h2>
         <p

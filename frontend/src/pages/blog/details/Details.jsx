@@ -1,17 +1,22 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router";
-import { fetchBlogById, fetchBlogs } from "../../../redux/features/blogSlice";
+import {
+  fetchBlogById,
+  fetchBlogs,
+  incrementBlogViews,
+} from "../../../redux/features/blogSlice";
 
 import BlogLoader from "../../../components/loaders/BlogLoader";
 import MarkDown from "../../../components/markdown/MarkDown";
-import { Back, Logo } from "../../../assets";
+import { Back } from "../../../assets";
 import useTheme from "../../../hooks/useTheme";
 import RecentsPosts from "./RecentsPosts";
 import SharePost from "./SharePost";
 import Comments from "./Comments";
 import GenerateSummery from "./GenerateSummery";
 import Avatar from "../../../components/@comp/Avatar";
+import LikePostButton from "./LikePostButton";
 
 const Details = () => {
   const { id } = useParams();
@@ -20,6 +25,7 @@ const Details = () => {
   const { blog, loading, error } = useSelector((state) => state.blog);
 
   useEffect(() => {
+    dispatch(incrementBlogViews(id));
     dispatch(fetchBlogById(id));
     dispatch(fetchBlogs({ page: 1 }));
   }, [dispatch, id]);
@@ -51,7 +57,7 @@ const Details = () => {
                     @{blog?.author?.fullName}
                   </p>
                   <p className="text-base-content/50 text-sm">
-                    {new Date(blog?.createdAt).toLocaleDateString()}
+                    {new Date(blog?.updatedAt).toLocaleDateString()}
                   </p>
                 </div>
               </div>
@@ -88,6 +94,12 @@ const Details = () => {
           <RecentsPosts id={id} />
         </div>
       </div>
+
+      <LikePostButton
+        postId={blog?._id}
+        likes={blog?.likes}
+        likedBy={blog?.likedBy || []}
+      />
 
       <SharePost />
       <Comments postId={blog?._id} />

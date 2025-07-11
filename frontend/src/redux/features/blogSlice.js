@@ -130,7 +130,7 @@ export const incrementBlogViews = createAsyncThunk(
   "blogs/incrementBlogViews",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.put(BLOG_POSTS.VIEWS(id));
+      const response = await axiosInstance.post(BLOG_POSTS.VIEWS(id));
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
@@ -142,7 +142,7 @@ export const likeBlog = createAsyncThunk(
   "blogs/likeBlog",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.put(BLOG_POSTS.LIKES(id));
+      const response = await axiosInstance.post(BLOG_POSTS.LIKES(id));
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
@@ -307,37 +307,38 @@ const blogSlice = createSlice({
         state.error = action.payload || action.error.message;
       })
 
-      .addCase(incrementBlogViews.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      // .addCase(incrementBlogViews.pending, (state) => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
       .addCase(incrementBlogViews.fulfilled, (state, action) => {
-        state.loading = false;
+        // state.loading = false;
         // Optionally update views in current or posts
         if (state.blog && state.blog._id === action.payload._id) {
           state.blog.views = action.payload.views;
         }
       })
-      .addCase(incrementBlogViews.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || action.error.message;
-      })
+      // .addCase(incrementBlogViews.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.payload || action.error.message;
+      // })
 
-      .addCase(likeBlog.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      // .addCase(likeBlog.pending, (state) => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
       .addCase(likeBlog.fulfilled, (state, action) => {
-        state.loading = false;
+        // state.loading = false;
         // Optionally update likes in current or posts
         if (state.blog && state.blog._id === action.payload._id) {
           state.blog.likes = action.payload.likes;
+          state.blog.likedBy = action.payload.likedBy;
         }
-      })
-      .addCase(likeBlog.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || action.error.message;
       });
+    // .addCase(likeBlog.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action.payload || action.error.message;
+    // });
   },
 });
 

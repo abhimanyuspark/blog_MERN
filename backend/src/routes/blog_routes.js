@@ -9,7 +9,7 @@ const {
   getBlogPostById,
   searchPosts,
   viewPost,
-  likePost,
+  toggleLikePost,
   getTopPosts,
   getPostBySlug,
   getPostByTag,
@@ -33,6 +33,6 @@ router.get("/tag/:tag", getPostByTag);
 router.get("/:id", getBlogPostById);
 
 router.post("/:id/views", viewPost);
-router.post("/:id/likes", protectedRoute, likePost);
+router.post("/:id/likes", protectedRoute, toggleLikePost);
 
 module.exports = router;

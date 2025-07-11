@@ -7,8 +7,8 @@ import { API_ROUTES } from "../../../lib/routes";
 
 const GeneratePostForm = ({ postContent, onPostChange, onClose }) => {
   const [formData, setFormData] = useState({
-    title: postContent?.title || "How to create a react app",
-    tone: postContent?.tone || "Beginner friendly",
+    title: postContent?.title || "How to create a React App",
+    tone: postContent?.tone || "beginner-friendly",
   });
   const [formError, setFormError] = useState({});
   const [loading, setLoading] = useState(false);

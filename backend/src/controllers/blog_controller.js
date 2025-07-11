@@ -69,7 +69,7 @@ const getAllBlogPosts = async (req, res) => {
 
     const posts = await BlogPost.find(filter)
       .populate("author", "fullName profilePic")
-      .sort({ updatedAt: -1 })
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
@@ -132,12 +132,16 @@ const updateBlogPost = async (req, res) => {
       .replace(/ /g, "-")
       .replace(/[^\w-]+/g, "");
 
-    const blogPost = await BlogPost.findByIdAndUpdate(req.params.id, {
-      ...req.body,
-      title,
-      content,
-      slug,
-    });
+    const blogPost = await BlogPost.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...req.body,
+        title,
+        content,
+        slug,
+      },
+      { new: true }
+    );
     if (!blogPost)
       return res.status(404).json({ error: "Blog post not found" });
     res.json(blogPost);
@@ -188,9 +192,13 @@ const viewPost = async (req, res) => {
     if (!isValidObjectId(req.params.id)) {
       return res.status(400).json({ error: "Invalid blog post ID" });
     }
-    const blogPost = await BlogPost.findByIdAndUpdate(req.params.id, {
-      $inc: { views: 1 },
-    });
+    const blogPost = await BlogPost.findByIdAndUpdate(
+      req.params.id,
+      {
+        $inc: { views: 1 },
+      },
+      { new: true }
+    );
     if (!blogPost)
       return res.status(404).json({ error: "Blog post not found" });
     res.json(blogPost);
@@ -199,18 +207,42 @@ const viewPost = async (req, res) => {
   }
 };
 
-// increment likes on Post
-const likePost = async (req, res) => {
+// Like or unlike a blog post
+const toggleLikePost = async (req, res) => {
   try {
-    if (!isValidObjectId(req.params.id)) {
+    const userId = req.user.id; // 👈 Get user ID from auth middleware
+    const postId = req.params.id;
+
+    if (!isValidObjectId(postId)) {
       return res.status(400).json({ error: "Invalid blog post ID" });
     }
-    const blogPost = await BlogPost.findByIdAndUpdate(req.params.id, {
-      $inc: { likes: 1 },
-    });
-    if (!blogPost)
+
+    const blogPost = await BlogPost.findById(postId);
+    if (!blogPost) {
       return res.status(404).json({ error: "Blog post not found" });
-    res.json(blogPost);
+    }
+
+    let liked;
+    if (blogPost.likedBy.includes(userId)) {
+      // 👎 Unlike
+      blogPost.likes -= 1;
+      blogPost.likedBy.pull(userId); // remove userId from likedBy
+      liked = false;
+    } else {
+      // 👍 Like
+      blogPost.likes += 1;
+      blogPost.likedBy.push(userId); // add userId to likedBy
+      liked = true;
+    }
+
+    await blogPost.save();
+
+    res.json({
+      _id: blogPost._id,
+      likes: blogPost.likes,
+      likedBy: blogPost.likedBy,
+      liked, // 👈 true if liked, false if unliked
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -271,7 +303,7 @@ module.exports = {
   getBlogPostById,
   searchPosts,
   viewPost,
-  likePost,
+  toggleLikePost,
   getTopPosts,
   getPostBySlug,
   getPostByTag,

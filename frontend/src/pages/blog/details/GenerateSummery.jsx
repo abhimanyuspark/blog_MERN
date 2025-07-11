@@ -6,8 +6,13 @@ import axiosInstance from "../../../lib/axios";
 import { API_ROUTES } from "../../../lib/routes";
 import { LuSparkles } from "react-icons/lu";
 import { GrRefresh } from "react-icons/gr";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const GenerateSummery = ({ blog, theme }) => {
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
   const [summery, setSummery] = useState({
     loading: false,
     error: null,
@@ -41,11 +46,16 @@ const GenerateSummery = ({ blog, theme }) => {
     }
   };
 
+  const onLogin = () => {
+    toast.error("Please Login to Summerize it.");
+    navigate("/login");
+  };
+
   return (
     <div>
       <Button
         type="button"
-        onClick={onGenerateSummery}
+        onClick={() => (user ? onGenerateSummery() : onLogin())}
         className="btn-accent btn-sm"
       >
         <LuSparkles /> Summerize Post
@@ -67,7 +77,7 @@ const GenerateSummery = ({ blog, theme }) => {
         )}
 
         {summery?.loading && (
-          <p className="text-sm text-base-content/50 pt-10 p-4 flex gap-2 items-center justify-center">
+          <p className="text-sm text-base-content/50 pt-12 flex gap-2 items-center justify-center">
             <span className="loading loading-spinner loading-sm"></span>
             <span>Generating Summery...</span>
           </p>
