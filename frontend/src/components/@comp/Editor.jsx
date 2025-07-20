@@ -1,13 +1,12 @@
-import { useEffect, useState, useCallback } from "react";
+import { useQuill } from "react-quilljs";
+import "quill/dist/quill.snow.css";
+import Quill from "quill";
+import { useEffect, useState } from "react";
 import { Label } from "./Inputs";
 
-// Prevent import crash on SSR or production build
-let useQuill;
-if (typeof window !== "undefined") {
-  // Only import on client
-  const quilljs = require("react-quilljs");
-  require("quill/dist/quill.snow.css");
-  useQuill = quilljs.useQuill;
+// Fix: Attach Quill globally for react-quilljs
+if (typeof window !== "undefined" && !window.Quill) {
+  window.Quill = Quill;
 }
 
 const Editor = ({ value, onChange, label, error }) => {
@@ -45,45 +44,38 @@ const Editor = ({ value, onChange, label, error }) => {
     "background",
   ];
 
-  const { quill, quillRef } = useQuill
-    ? useQuill({ modules, formats })
-    : { quill: null, quillRef: { current: null } };
-
+  const { quill, quillRef } = useQuill({ modules, formats });
   const [focused, setFocused] = useState(false);
-  const [isReady, setIsReady] = useState(false);
 
-  const handleFocus = useCallback(() => setFocused(true), []);
-  const handleBlur = useCallback(() => setFocused(false), []);
-
+  // Set initial value
   useEffect(() => {
-    if (quill) {
-      setIsReady(true);
-    }
-  }, [quill]);
-
-  useEffect(() => {
-    if (quill && isReady && value !== undefined) {
-      const currentHTML = quill.root.innerHTML;
-      if (currentHTML !== value) {
-        quill.clipboard.dangerouslyPasteHTML(value);
+    if (quill && value !== undefined) {
+      if (quill.root.innerHTML !== value) {
+        quill.root.innerHTML = value;
       }
     }
-  }, [quill, value, isReady]);
+  }, [quill, value]);
 
+  // Listen for changes
   useEffect(() => {
-    if (quill && isReady && onChange) {
+    if (quill && onChange) {
       const handler = () => {
-        const html = quill.root.innerHTML;
-        onChange(html);
+        onChange(quill.root.innerHTML);
       };
       quill.on("text-change", handler);
-      return () => quill.off("text-change", handler);
+      return () => {
+        quill.off("text-change", handler);
+      };
     }
-  }, [quill, onChange, isReady]);
+  }, [quill, onChange]);
+
+  // Focus/blur
+  const handleFocus = () => setFocused(true);
+  const handleBlur = () => setFocused(false);
 
   useEffect(() => {
-    const editor = quillRef?.current;
-    if (editor && isReady) {
+    const editor = quillRef.current;
+    if (editor) {
       editor.addEventListener("focusin", handleFocus);
       editor.addEventListener("focusout", handleBlur);
       return () => {
@@ -91,23 +83,16 @@ const Editor = ({ value, onChange, label, error }) => {
         editor.removeEventListener("focusout", handleBlur);
       };
     }
-  }, [quillRef, handleFocus, handleBlur, isReady]);
-
-  const handleLabelClick = useCallback(() => {
-    if (quill && isReady) {
-      handleFocus();
-      quill.focus();
-    }
-  }, [quill, handleFocus, isReady]);
-
-  // Fallback for SSR / first render
-  if (!useQuill) {
-    return <div>Loading editor...</div>;
-  }
+  }, [quillRef]);
 
   return (
     <div className="flex flex-col gap-2 relative size-full">
-      <div onClick={handleLabelClick}>
+      <div
+        onClick={() => {
+          handleFocus();
+          quill.root.focus();
+        }}
+      >
         <Label label={label} important />
       </div>
       <div
@@ -121,7 +106,7 @@ const Editor = ({ value, onChange, label, error }) => {
       >
         <div className="size-full" ref={quillRef} />
       </div>
-      {error && <div className="text-error text-sm">{error}</div>}
+      <div className="text-error text-sm">{error}</div>
     </div>
   );
 };
