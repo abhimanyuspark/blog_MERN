@@ -34,7 +34,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`px-4 sm:px-12 ${
+        className={`px-2 sm:px-12 ${
           admin ? "lg:px-4" : "lg:px-24"
         } sticky top-0 left-0 w-full z-10 border flex items-center justify-between border-base-300 h-16 ${
           y > 0
@@ -43,7 +43,7 @@ const Navbar = () => {
         }`}
       >
         {/* Left Actions */}
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-2 sm:gap-4 items-center">
           {/* Menu */}
           <div className="sm:hidden block">
             <button
@@ -82,7 +82,7 @@ const Navbar = () => {
         )}
 
         {/* Right Actions */}
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-2 sm:gap-4 items-center">
           {/* Search Bar */}
           {!admin && (
             <Button
@@ -94,11 +94,11 @@ const Navbar = () => {
           )}
 
           {!user && (
-            <div className="flex sm:gap-2 gap-1 items-center">
+            <div className="flex sm:gap-2 gap-0 flex-col sm:flex-row items-start sm:items-center">
               <Link className="link link-hover text-sm" to="/login">
                 Login
               </Link>
-              /
+              <span className="sm:block hidden">/</span>
               <Link className="link link-hover text-sm" to="/sign-up">
                 Sign Up
               </Link>
@@ -132,7 +132,9 @@ const Navbar = () => {
                   </li>
                 )}
                 <li>
-                  <a className="justify-between">Profile</a>
+                  <Link to="/profile" className="justify-between">
+                    Profile
+                  </Link>
                 </li>
                 <li>
                   <Theme />

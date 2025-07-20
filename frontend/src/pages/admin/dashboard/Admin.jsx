@@ -33,7 +33,7 @@ const Admin = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols32 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {Object.entries(dash?.stats || {}).map(([key, value]) => (
           <StatsCard key={key} name={key} value={value} />
         ))}

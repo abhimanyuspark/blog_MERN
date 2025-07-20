@@ -15,6 +15,7 @@ const Unauthorized = lazy(() => import("./others/Unauthorized.jsx"));
 
 const Login = lazy(() => import("./auth/Login.jsx"));
 const SignUp = lazy(() => import("./auth/SignUp.jsx"));
+const Profile = lazy(() => import("./auth/Profile.jsx"));
 
 export {
   Home,
@@ -29,4 +30,5 @@ export {
   SignUp,
   Tag,
   Search,
+  Profile,
 };

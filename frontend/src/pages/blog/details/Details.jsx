@@ -80,7 +80,7 @@ const Details = () => {
             className="w-full h-90 object-cover rounded"
           />
 
-          <div className="border border-base-300 bg-base-100 rounded-lg p-4">
+          <div className="border border-base-300 bg-base-100 rounded-lg p-2 sm:p-4">
             <MarkDown
               content={
                 blog?.content?.replace(/^<p>/, "")?.replace(/<\/p>$/, "") || ""

@@ -4,7 +4,7 @@ import { Back } from "../../../assets";
 
 const PostCard = ({ blog, onEdit, onDelete }) => {
   return (
-    <div className="flex gap-4 group cursor-pointer hover:bg-base-100 p-2 rounded-lg">
+    <div className="flex sm:gap-4 gap-3 group cursor-pointer hover:bg-base-100 p-0 sm:p-2 rounded-lg">
       <div className="overflow-hidden w-12 h-12 rounded-md bg-gray-100 flex-shrink-0">
         <img
           className="w-full h-full object-cover"
@@ -37,20 +37,22 @@ const PostCard = ({ blog, onEdit, onDelete }) => {
               {blog?.likes}
             </span>
 
-            {blog?.tags?.map((t, i) => (
-              <span
-                className="badge badge-sm bg-base-content/10 capitalize"
-                key={i}
-              >
-                {t}
-              </span>
-            ))}
+            <div className="flex gap-2 flex-wrap">
+              {blog?.tags?.map((t, i) => (
+                <span
+                  className="badge badge-sm bg-base-content/10 capitalize"
+                  key={i}
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="flex gap-2 items-center group-hover:opacity-100 opacity-100 sm:opacity-0 transition-opacity duration-300">
+        <div className="flex gap-2 flex-wrap items-center group-hover:opacity-100 opacity-100 sm:opacity-0 transition-opacity duration-300">
           <Button
-            className="btn-outline btn-info btn-sm"
+            className="btn-outline btn-info btn-xs sm:btn-sm"
             onClick={() => {
               onEdit(blog?._id);
             }}
@@ -59,7 +61,7 @@ const PostCard = ({ blog, onEdit, onDelete }) => {
             Edit
           </Button>
           <Button
-            className="btn-outline btn-error btn-sm"
+            className="btn-outline btn-error btn-xs sm:btn-sm"
             onClick={() => {
               onDelete(blog?._id);
             }}

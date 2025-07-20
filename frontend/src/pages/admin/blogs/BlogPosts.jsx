@@ -66,7 +66,7 @@ const BlogPosts = () => {
       {loading && <BlogLoader />}
 
       <div className="flex gap-6 flex-col">
-        <div className="flex items-center justify-between">
+        <div className="flex items-start gap-4 justify-between sm:items-center sm:flex-row flex-col">
           <h3 className="font-semibold">Blog Posts</h3>
           <Button
             className="btn-primary"

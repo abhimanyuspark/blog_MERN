@@ -14,7 +14,7 @@ const CommentCard = ({
   replies,
 }) => {
   return (
-    <div className="flex sm:flex-row-reverse gap-4 sm:gap-0 flex-col justify-between hover:bg-base-300 py-2 px-3 rounded-lg w-full">
+    <div className="flex sm:flex-row-reverse gap-4 sm:gap-0 flex-col justify-between hover:bg-base-300 py-2 px-2 sm:px-3 rounded-lg w-full">
       <div className="flex gap-4 w-full sm:w-[35%]">
         <img
           className="rounded-lg w-14 h-10"
@@ -51,7 +51,7 @@ const CommentCard = ({
               </span>
             </div>
             <p className="text-sm first-letter:uppercase">{comment?.content}</p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span
                 onClick={onReply}
                 className="badge badge-sm badge-accent cursor-pointer rounded-md"

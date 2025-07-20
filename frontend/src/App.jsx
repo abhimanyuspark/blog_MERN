@@ -17,6 +17,7 @@ import {
   Editor,
   Search,
   Tag,
+  Profile,
 } from "./pages";
 import { Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
@@ -92,6 +93,7 @@ function App() {
           <Route path="/details/:id" element={<Details />} />
           <Route path="/tag/:tag" element={<Tag />} />
           <Route path="/search/:query" element={<Search />} />
+          <Route path="/profile" element={<Profile />} />
 
           <Route element={<GoogleAuth />}>
             <Route path="/login" element={<Login />} />
