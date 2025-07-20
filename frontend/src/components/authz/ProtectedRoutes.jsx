@@ -1,32 +1,25 @@
 import { Navigate, Outlet } from "react-router";
 import { useSelector } from "react-redux";
+import Loader from "../../components/loaders/Loader";
 
 const ProtectedRoutes = ({ allowedRoles = [] }) => {
   const { user, loading } = useSelector((state) => state.auth);
 
-  // Show loading state while authentication is being checked
-  if (loading) {
-    return <div>Loading...</div>; // or your loading component
+  // 🚨 While we don't know if user is logged in, don't render anything
+  if (loading || user === undefined || user === null) {
+    return <Loader />; // Show a spinner or skeleton
   }
 
-  // If user is not logged in, redirect to login
-  if (!user) {
-    return <Navigate to="/login" replace={true} />;
+  if (!user || !user.roles || user.roles.length === 0) {
+    return <Navigate to="/login" replace />;
   }
 
-  // If user is logged in, check roles
   const roles = user.roles || [];
-
-  // If user has required roles, allow access
-  if (
-    allowedRoles.length === 0 ||
-    allowedRoles.some((role) => roles.includes(role))
-  ) {
+  if (allowedRoles.some((r) => roles.includes(r))) {
     return <Outlet />;
+  } else {
+    return <Navigate to="/unauthorized" replace />;
   }
-
-  // If user doesn't have required roles, redirect to unauthorized
-  return <Navigate to="/unauthorized" replace={true} />;
 };
 
 export default ProtectedRoutes;

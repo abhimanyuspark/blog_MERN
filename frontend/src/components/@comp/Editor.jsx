@@ -1,7 +1,14 @@
-import { useQuill } from "react-quilljs";
-import "quill/dist/quill.snow.css";
 import { useEffect, useState, useCallback } from "react";
 import { Label } from "./Inputs";
+
+// Prevent import crash on SSR or production build
+let useQuill;
+if (typeof window !== "undefined") {
+  // Only import on client
+  const quilljs = require("react-quilljs");
+  require("quill/dist/quill.snow.css");
+  useQuill = quilljs.useQuill;
+}
 
 const Editor = ({ value, onChange, label, error }) => {
   const modules = {
@@ -38,56 +45,47 @@ const Editor = ({ value, onChange, label, error }) => {
     "background",
   ];
 
-  const { quill, quillRef } = useQuill({ modules, formats });
+  const { quill, quillRef } = useQuill
+    ? useQuill({ modules, formats })
+    : { quill: null, quillRef: { current: null } };
+
   const [focused, setFocused] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
-  // Memoized handlers to prevent unnecessary re-renders
   const handleFocus = useCallback(() => setFocused(true), []);
   const handleBlur = useCallback(() => setFocused(false), []);
 
-  // Wait for quill to be ready before setting up
   useEffect(() => {
     if (quill) {
       setIsReady(true);
     }
   }, [quill]);
 
-  // Set initial value if provided - only when quill is ready
   useEffect(() => {
     if (quill && isReady && value !== undefined) {
       const currentHTML = quill.root.innerHTML;
-      // Only update if content is actually different
-      if (currentHTML !== value && value !== currentHTML) {
-        // Use quill's clipboard module for better HTML parsing
+      if (currentHTML !== value) {
         quill.clipboard.dangerouslyPasteHTML(value);
       }
     }
   }, [quill, value, isReady]);
 
-  // Listen for changes and call onChange
   useEffect(() => {
     if (quill && isReady && onChange) {
       const handler = () => {
         const html = quill.root.innerHTML;
         onChange(html);
       };
-
       quill.on("text-change", handler);
-
-      return () => {
-        quill.off("text-change", handler);
-      };
+      return () => quill.off("text-change", handler);
     }
   }, [quill, onChange, isReady]);
 
-  // Focus/blur handlers with better cleanup
   useEffect(() => {
-    const editor = quillRef.current;
+    const editor = quillRef?.current;
     if (editor && isReady) {
       editor.addEventListener("focusin", handleFocus);
       editor.addEventListener("focusout", handleBlur);
-
       return () => {
         editor.removeEventListener("focusin", handleFocus);
         editor.removeEventListener("focusout", handleBlur);
@@ -101,6 +99,11 @@ const Editor = ({ value, onChange, label, error }) => {
       quill.focus();
     }
   }, [quill, handleFocus, isReady]);
+
+  // Fallback for SSR / first render
+  if (!useQuill) {
+    return <div>Loading editor...</div>;
+  }
 
   return (
     <div className="flex flex-col gap-2 relative size-full">
