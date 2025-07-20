@@ -21,7 +21,7 @@ const LikePostButton = ({ postId, likes = 1, likedBy }) => {
   };
 
   return (
-    <div className="fixed bottom-10 right-10">
+    <div className="fixed bottom-5 sm:bottom-10 right-2 sm:right-10">
       <Button
         className={`${
           userLikedBy ? "btn-success" : "btn-accent"

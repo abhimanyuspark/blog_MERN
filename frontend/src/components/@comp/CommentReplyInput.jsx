@@ -61,7 +61,7 @@ const CommentReplyInput = ({
       <Avatar author={user} />
 
       <div className="w-full flex justify-between gap-2 flex-col">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between gap-2 items-start sm:items-center sm:flex-row flex-col">
           <span className="text-xs block text-base-content/70">
             @{user?.fullName}
           </span>

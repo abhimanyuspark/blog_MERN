@@ -27,7 +27,7 @@ const Tag = () => {
   }
 
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-6 sm:flex-row flex-col">
       <div className="flex gap-6 flex-col sm:w-[70%] w-full">
         <div className="bg-info flex items-center flex-col gap-2 justify-center px-4 py-8 rounded-lg">
           <p className="text-2xl font-bold text-white">#{tag}</p>

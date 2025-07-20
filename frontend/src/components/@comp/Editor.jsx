@@ -1,6 +1,6 @@
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Label } from "./Inputs";
 
 const Editor = ({ value, onChange, label, error }) => {
@@ -37,55 +37,74 @@ const Editor = ({ value, onChange, label, error }) => {
     "color",
     "background",
   ];
+
   const { quill, quillRef } = useQuill({ modules, formats });
   const [focused, setFocused] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
-  // Set initial value if provided
+  // Memoized handlers to prevent unnecessary re-renders
+  const handleFocus = useCallback(() => setFocused(true), []);
+  const handleBlur = useCallback(() => setFocused(false), []);
+
+  // Wait for quill to be ready before setting up
   useEffect(() => {
-    if (quill && value !== undefined) {
-      if (quill.root.innerHTML !== value) {
-        quill.root.innerHTML = value;
+    if (quill) {
+      setIsReady(true);
+    }
+  }, [quill]);
+
+  // Set initial value if provided - only when quill is ready
+  useEffect(() => {
+    if (quill && isReady && value !== undefined) {
+      const currentHTML = quill.root.innerHTML;
+      // Only update if content is actually different
+      if (currentHTML !== value && value !== currentHTML) {
+        // Use quill's clipboard module for better HTML parsing
+        quill.clipboard.dangerouslyPasteHTML(value);
       }
     }
-  }, [quill, value]);
+  }, [quill, value, isReady]);
 
   // Listen for changes and call onChange
   useEffect(() => {
-    if (quill && onChange) {
+    if (quill && isReady && onChange) {
       const handler = () => {
-        onChange(quill.root.innerHTML);
+        const html = quill.root.innerHTML;
+        onChange(html);
       };
+
       quill.on("text-change", handler);
+
       return () => {
         quill.off("text-change", handler);
       };
     }
-  }, [quill, onChange]);
+  }, [quill, onChange, isReady]);
 
-  // Focus/blur handlers
-  const handleFocus = () => setFocused(true);
-  const handleBlur = () => setFocused(false);
-
+  // Focus/blur handlers with better cleanup
   useEffect(() => {
     const editor = quillRef.current;
-    if (editor) {
+    if (editor && isReady) {
       editor.addEventListener("focusin", handleFocus);
       editor.addEventListener("focusout", handleBlur);
+
       return () => {
         editor.removeEventListener("focusin", handleFocus);
         editor.removeEventListener("focusout", handleBlur);
       };
     }
-  }, [quillRef]);
+  }, [quillRef, handleFocus, handleBlur, isReady]);
+
+  const handleLabelClick = useCallback(() => {
+    if (quill && isReady) {
+      handleFocus();
+      quill.focus();
+    }
+  }, [quill, handleFocus, isReady]);
 
   return (
     <div className="flex flex-col gap-2 relative size-full">
-      <div
-        onClick={() => {
-          handleFocus();
-          quill.root.focus();
-        }}
-      >
+      <div onClick={handleLabelClick}>
         <Label label={label} important />
       </div>
       <div
@@ -99,7 +118,7 @@ const Editor = ({ value, onChange, label, error }) => {
       >
         <div className="size-full" ref={quillRef} />
       </div>
-      <div className="text-error text-sm">{error}</div>
+      {error && <div className="text-error text-sm">{error}</div>}
     </div>
   );
 };
