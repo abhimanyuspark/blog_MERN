@@ -9,9 +9,4 @@ export default defineConfig({
     global: {},
     require: undefined, // Prevent "require is not defined" error
   },
-  resolve: {
-    alias: {
-      quill: "quill/dist/quill.js",
-    },
-  },
 });
