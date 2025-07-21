@@ -16,7 +16,7 @@ const generateBlogPost = async (req, res) => {
       return res.status(400).json({ error: "Title and Tone is required" });
     }
 
-    const prompt = `Write a markdown-formatted blog-post titled ${title}. Use a ${tone} tone. Inculde an introduction , subheadings, code example if relevent and a conclusion.`;
+    const prompt = `Write a markdown-formatted only blog-post titled ${title}. Use a ${tone} tone. Inculde an introduction, subheadings, code example if relevent and a conclusion.`;
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",

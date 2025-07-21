@@ -186,7 +186,7 @@ const PostForm = () => {
             }}
           />
 
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap">
             <Button
               type="button"
               onClick={(e) => {
