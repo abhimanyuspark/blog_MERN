@@ -1,6 +1,6 @@
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
-import "react-quilljs/dist/quill.snow.css";
+// import "react-quilljs/dist/quill.snow.css";
 
 import { useEffect, useState } from "react";
 import { Label } from "./Inputs";
