@@ -5,8 +5,4 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  define: {
-    global: {},
-    require: undefined, // Prevent "require is not defined" error
-  },
 });
