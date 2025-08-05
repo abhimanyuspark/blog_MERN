@@ -73,7 +73,7 @@ const ProfileInput = ({ label = "Profile Image", file }) => {
             <button
               type="button"
               onClick={handleDelete}
-              className="absolute top-2 right-2 z-10 btn btn-error btn-md btn-circle"
+              className="absolute top-2 right-2 z-[1] btn btn-error btn-md btn-circle"
               title="Delete"
             >
               <FiTrash />
@@ -109,7 +109,7 @@ const ProfileInput = ({ label = "Profile Image", file }) => {
                   alt="Preview"
                   className="size-full object-cover"
                 />
-                <label className="group-hover:flex hidden absolute top-0 left-0 flex-col items-center justify-center w-full h-full cursor-pointer bg-black/40 rounded-full">
+                <label className="group-hover:flex hidden absolute top-0 left-0 flex-col items-center justify-center w-full h-full cursor-pointer bg-black/60 rounded-full">
                   <span className="text-base-content/50 text-center font-medium mb-2">
                     Click for change image
                   </span>
@@ -120,8 +120,8 @@ const ProfileInput = ({ label = "Profile Image", file }) => {
                     ref={inputRef}
                     className="hidden"
                   />
-                  <div className="size-10 flex items-center justify-center bg-base-200 rounded-full">
-                    <FiEdit className="text-xl text-base-content/80" />
+                  <div className="size-12 flex items-center bg-info justify-center rounded-full">
+                    <FiEdit className="text-xl text-info-content" />
                   </div>
                 </label>
               </div>
