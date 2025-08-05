@@ -5,6 +5,7 @@ export const API_ROUTES = {
     LOGOUT: "/auth/logout",
     GOOGLE_LOGIN: "/auth/google-login",
     CHECK: "/auth/check",
+    UPDATE_PROFILE: "/auth/profile",
   },
   USER: {
     CREATE: "/users",

@@ -16,7 +16,7 @@ const Avatar = ({ author, className, size = 40 }) => {
       style={avatarSize}
     >
       <img
-        className="size-full object-contain"
+        className="size-full object-cover"
         src={author?.profilePic || Logo}
         onError={(e) => (e.currentTarget.src = Logo)}
         alt="avatar"

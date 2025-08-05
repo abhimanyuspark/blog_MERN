@@ -23,7 +23,7 @@ const Input = ({
   autoComplete = "off",
   label,
   error,
-
+  disabled = false,
   onRandom,
   important,
   className,
@@ -42,9 +42,11 @@ const Input = ({
           type={name === "password" ? (show ? "text" : "password") : type}
           value={value}
           placeholder={placeholder}
-          className={`${className} w-full input  ${
-            error ? "input-error" : "input-primary"
+          className={`${className} w-full input 
+          ${
+            error ? "input-error" : disabled ? "input-ghost" : "input-primary"
           }`}
+          disabled={disabled}
           onChange={onChange}
         />
 

@@ -7,6 +7,21 @@ import { io } from "socket.io-client";
 const url =
   import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
 
+export const updateProfile = createAsyncThunk(
+  "auth/updateProfile",
+  async (profileData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post(
+        AUTH.UPDATE_PROFILE,
+        profileData
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
 // Async thunk for user login
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
@@ -208,6 +223,21 @@ const authSlice = createSlice({
         state.success = true;
       })
       .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.success = false;
+      })
+      .addCase(updateProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = { ...state.user, ...action.payload };
+        state.success = true;
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.success = false;

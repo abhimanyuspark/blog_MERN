@@ -4,7 +4,7 @@ import { Label } from "./Inputs";
 import { useDispatch } from "react-redux";
 import { uploadImage } from "../../redux/features/blogSlice";
 
-const FileInput = ({ label = "Cover Imgae", file, onChange }) => {
+const FileInput = ({ label = "Cover Image", file, onChange }) => {
   const dispatch = useDispatch();
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);

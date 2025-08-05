@@ -204,9 +204,8 @@ const Navbar = () => {
             </Button>
           </div>
           <div className="txt-sm flex gap-2 flex-col p-4 items-center text-center">
-            <Avatar size={80} author={user} />
-            <p className="text-base-content/80 truncate">{user?.fullName}</p>
-            <p className="truncate">{user?.email}</p>
+            <Avatar size={120} author={user} />
+            <p className="text-base-content/40 truncate">{user?.fullName}</p>
           </div>
           <ul className="p-2 flex flex-col gap-4">
             {Data.map((n, i) => (

@@ -33,9 +33,11 @@ const MarkdownEditor = ({ value, onChange, label = "Description", error }) => {
       >
         <MdEditor
           value={value}
-          style={{ minHeight: "200px", height: "100%" }}
+          style={{ minHeight: "400px", height: "500px" }}
           renderHTML={(text) => mdParser.render(text)}
           onChange={handleEditorChange}
+          className="overflow-y-auto"
+          theme="light"
           placeholder="Write in Markdown..."
         />
       </div>
